@@ -5,6 +5,8 @@
 #include <list>
 #include <string>
 
+using IdType = char;
+
 class Service;
 
 class UserInterface
@@ -16,7 +18,7 @@ public:
     int getChoice();                                       // 获取用户选择
     int getChoice(std::string prompt);                     // 获取用户选择带提示
     std::string getInputString(const std::string &prompt); // 获取字符串输入
-    char getInputId(const std::string &prompt);            // 获取id输入
+    IdType getInputId(const std::string &prompt);          // 获取id输入
 
     void displayMainMenu();    // 初始化界面
     void showInvalidInput();   // 显示非法输入信息
@@ -39,17 +41,17 @@ public:
     void showFindNoPeopleMessage(const std::string &name);
     std::string getNewInformationName(const std::string &prompt, std::string name);
 
-    void showIdExistingMessage(const char id); // 4、添加通讯录记录信息
-    void showAddSuccessMessage(const char &id, const char &idNew);
-    void showAddErrorMessage(const char &id, const char &idNew);
-    std::string getNewInformationId(const std::string &prompt, char id);
+    void showIdExistingMessage(const IdType &id); // 4、添加通讯录记录信息
+    void showAddSuccessMessage(const IdType &id, const IdType &idNew);
+    void showAddErrorMessage(const IdType &id, const IdType &idNew);
+    std::string getNewInformationId(const std::string &prompt, IdType id);
     void displayAllContactsSimple(const std::vector<std::string> &printList);
 
     void showSavingSuccessMessage(const std::string &filename); // 5、保存通讯录信息
     void showSavingErrorMessage(const std::string &filename);
 
     void showConstructingMessage(); // 6、构建联系人关系网络
-    void showRelationMap(const std::vector<std::vector<double>> &relationList, const std::vector<char> &idList);
+    void showRelationMap(const std::vector<std::vector<double>> &relationList, const std::vector<IdType> &idList);
 
     void outputStr(std::string str);
 };

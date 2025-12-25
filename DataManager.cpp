@@ -49,17 +49,33 @@ const Person<> *DataManager::findByName(const std::string &name) const
     for (auto it = persons.cbegin(); it != persons.cend(); ++it)
     {
         if (it->getName() == name)
-            return &*it;
+        {
+            return &(*it);
+        }
     }
     return nullptr;
 }
 
-bool DataManager::existsId(char id) const
+const Person<> *DataManager::findById(const IdType &id) const
+{
+    for (auto it = persons.cbegin(); it != persons.cend(); ++it)
+    {
+        if (it->getId() == id)
+        {
+            return &(*it);
+        }
+    }
+    return nullptr;
+}
+
+bool DataManager::existsId(IdType id) const
 {
     for (const auto &p : persons)
     {
         if (p.getId() == id)
+        {
             return true;
+        }
     }
     return false;
 }
@@ -74,10 +90,12 @@ bool DataManager::add(const Person<> &p)
     return true;
 }
 
-bool DataManager::addById(char id)
+bool DataManager::addById(IdType id)
 {
     if (existsId(id))
+    {
         return false;
+    }
     Person<> p(id);
     persons.push_back(p);
     this->persons.sort([](const Person<> &a, const Person<> &b)
@@ -87,7 +105,7 @@ bool DataManager::addById(char id)
 
 bool DataManager::removeByName(const std::string &name)
 {
-    char id;
+    IdType id;
     auto it = persons.begin();
     for (; it != persons.end();)
     {
@@ -114,7 +132,7 @@ bool DataManager::removeByName(const std::string &name)
 
 bool DataManager::updateByName(const std::string &name, const Person<> &newInfo)
 {
-    char id, newId;
+    IdType id, newId;
     for (auto it = persons.begin(); it != persons.end(); ++it)
     {
         if (it->getName() == name)

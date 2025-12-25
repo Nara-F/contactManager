@@ -100,7 +100,7 @@ void App::handleContactSearch()
         }
         else
         {
-            char id = ui.getInputId("请输入要查询的人员id（输入0返回主菜单）：");
+            IdType id = ui.getInputId("请输入要查询的人员id（输入0返回主菜单）：");
             if (id == '0')
             {
                 return;
@@ -189,12 +189,12 @@ void App::handleContactAddition() // 可以拓展加上同id信息覆盖的选�
         Sleep(2000);
         return;
     }
-    char addingId = ui.getInputId("请输入要添加新联系人的人员id（输入0返回主菜单）：");
+    IdType addingId = ui.getInputId("请输入要添加新联系人的人员id（输入0返回主菜单）：");
     if (addingId == '0')
     {
         return;
     }
-    char id;
+    IdType id;
     while (true)
     {
         id = ui.getInputId("请输入要添加的新联系人id（输入0返回主菜单）：");
@@ -238,7 +238,7 @@ void App::handleDataSaving()
             Sleep(2000);
             return;
         }
-        char id = ui.getInputId("请输入要保存的联系人id（输入0返回主菜单）：");
+        IdType id = ui.getInputId("请输入要保存的联系人id（输入0返回主菜单）：");
         if (id == '0')
             return;
         int choice = 0;

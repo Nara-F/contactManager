@@ -6,7 +6,7 @@
 
 template <typename Tid>
 Person<Tid>::Person()
-    : id('\0'), name(), gender(Gender::Female), age(0), telephone(), city(), school(), address(), contactMember()
+    : id(InvalidId), name(), gender(Gender::Female), age(0), telephone(), city(), school(), address(), contactMember()
 {
 }
 
@@ -208,7 +208,7 @@ void Person<Tid>::update(const Person<Tid> &newInfo)
     // 保留原有联系人列表，更新其他字段
     const auto oldContacts = contactMember;
     *this = newInfo;
-    for (char c : oldContacts)
+    for (auto c : oldContacts)
     {
         addContactMember(c);
     }

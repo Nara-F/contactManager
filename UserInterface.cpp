@@ -73,11 +73,11 @@ std::string UserInterface::getInputString(const std::string &prompt)
     return input;
 }
 
-char UserInterface::getInputId(const std::string &prompt)
+IdType UserInterface::getInputId(const std::string &prompt)
 {
     // TO DO: 显示提示信息 `prompt` 并读取一个字符作为 ID，返回该字符
     std::string line;
-    char id;
+    IdType id;
     if (std::cin.eof())
     {
         return '\0';
@@ -219,19 +219,19 @@ void UserInterface::showFindNoPeopleMessage(const std::string &name)
     std::cerr << "未找到匹配联系人：" << name << "，请检查输入或尝试其他关键字！" << std::endl;
 }
 
-void UserInterface::showIdExistingMessage(const char id)
+void UserInterface::showIdExistingMessage(const IdType &id)
 {
     // TO DO: 提示 ID 已存在，包含冲突的 `id` 值
     std::cerr << "ID " << id << " 已存在，请使用其他 ID！" << std::endl;
 }
 
-void UserInterface::showAddSuccessMessage(const char &id, const char &idNew)
+void UserInterface::showAddSuccessMessage(const IdType &id, const IdType &idNew)
 {
     // TO DO: 显示添加联系人成功，包含新联系人 `id`
     std::cout << "联系人 " << id << " 的新联系人 " << idNew << " 已成功添加并关联。" << std::endl;
 }
 
-void UserInterface::showAddErrorMessage(const char &id, const char &idNew)
+void UserInterface::showAddErrorMessage(const IdType &id, const IdType &idNew)
 {
     // TO DO: 显示添加联系人失败，包含相关 `id`，并提示原因或下一步
     std::cerr << "添加失败：联系人 " << id << " 不存在，无法关联新联系人。请先确认拥有者已在通讯录中。" << std::endl;
@@ -255,7 +255,7 @@ void UserInterface::showConstructingMessage()
     std::cout << "正在构建联系人关系网络，请稍候..." << std::endl;
 }
 
-void UserInterface::showRelationMap(const std::vector<std::vector<double>> &relationList, const std::vector<char> &idList)
+void UserInterface::showRelationMap(const std::vector<std::vector<double>> &relationList, const std::vector<IdType> &idList)
 {
     if (relationList.empty())
     {
@@ -268,7 +268,7 @@ void UserInterface::showRelationMap(const std::vector<std::vector<double>> &rela
 
         // 显示列标签（上方 ID）
         std::cout << "    ";
-        for (char id : idList)
+        for (IdType id : idList)
         {
             std::cout << std::setw(3) << id << " ";
         }
@@ -304,7 +304,7 @@ std::string UserInterface::getNewInformationName(const std::string &prompt, std:
 {
     std::cout << prompt << std::endl;
 
-    char id;
+    IdType id;
     std::string gender;
     std::string age;
     std::string telephone;
@@ -370,7 +370,7 @@ std::string UserInterface::getNewInformationName(const std::string &prompt, std:
     return retStr;
 }
 
-std::string UserInterface::getNewInformationId(const std::string &prompt, char id)
+std::string UserInterface::getNewInformationId(const std::string &prompt, IdType id)
 {
     std::cout << prompt << std::endl;
 

@@ -27,79 +27,17 @@ public:
     const std::string &getCurrentFileName() const; // 返回文件名
 
     std::vector<std::string> getAllContacts() const; // 查
-
-    template <typename T>
-    std::vector<std::string> getCertainContact(const T &id) const
-    {
-        std::vector<std::string> info;
-        const auto *p = findContactById(id);
-        if (p)
-        {
-            info = p->returnInfo();
-        }
-        return info;
-    }
-
     const Person<> *findContactByName(const std::string &name) const;
-
-    template <typename T>
-    const Person<> *findContactById(const T &id) const
-    {
-        return dataManager.findById(id);
-    }
-
-    template <typename T>
-    bool addContact(const std::string &infoStr, T addingId) // 增
-    {
-        Person<> *owner = nullptr;
-        for (auto &person : dataManager.getAll())
-        {
-            if (person.getId() == addingId)
-            {
-                owner = &person;
-            }
-        }
-        if (!owner)
-        {
-            return false;
-        }
-        Person<> newP = parseContactInfo(infoStr);
-        // std::cout << infoStr << std::endl;
-        if (newP.getId() == '\0')
-        {
-            // std::cerr << "parse failed\n";
-            return false;
-        }
-
-        const char newId = newP.getId();
-
-        if (!dataManager.existsId(newId))
-        {
-            dataManager.add(newP);
-        }
-        else
-        {
-            auto &all = dataManager.getAll();
-            for (auto &person : all)
-            {
-                if (person.getId() == newId)
-                {
-                    person.update(newP);
-                    break;
-                }
-            }
-        }
-
-        owner->addContactMember(newId);
-        return true;
-    }
+    const Person<> *findContactById(const IdType &id) const;
+    bool addContact(const std::string &infoStr, IdType addingId); // 增
+    std::vector<std::string> getCertainContact(const IdType &id) const;
 
     bool deleteContactByName(const std::string &name); // 删
 
     bool updateContact(const std::string &name, const std::string &newInfoStr); // 改
 
     std::vector<std::vector<double>> buildRelationNetwork() const; // 构建关系网络
-    std::vector<char> getSortedIdList() const;                     // 获取排序后的ID列表
+    std::vector<IdType> getSortedIdList() const;                   // 获取排序后的ID列表
 
 private:
     DataManager dataManager;

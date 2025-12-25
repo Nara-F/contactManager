@@ -25,14 +25,14 @@ Person<> Service::parseContactInfo(std::string infoStr) const
     // 期望格式：id name gender age telephone city school address （空格分隔，gender 为 男/女）
     std::istringstream ss(infoStr);
     std::string name, genderStr, telephone, city, school, address;
-    char id = '\0';
+    IdType id = InvalidId;
     int age = 0;
 
     if (!(ss >> id >> name >> genderStr >> age >> telephone >> city >> school >> address))
     {
         std::cerr << "praseErrInformation" << ss.str() << std::endl;
         //  输入字段不足或格式错误，返回空对象
-        return Person<>('\0', "", Person<>::Gender::Female, 0, "00000000000", "", "", "");
+        return Person<>(InvalidId, "", Person<>::Gender::Female, 0, "00000000000", "", "", "");
     }
     // std::cout << id << std::endl;
 
@@ -54,7 +54,7 @@ int Service::loadFromFile(const std::string &filename)
         currentFileName.clear();
         return 0;
     }
-    char idFile;
+    IdType idFile;
     std::istringstream ss(filename);
     if (ss >> idFile)
     {
@@ -94,7 +94,7 @@ bool Service::saveToFile(const Person<> &p)
     filename += p.getId();
     filename += ".txt";
 
-    std::vector<char> contactList = p.getContactMember();
+    std::vector<IdType> contactList = p.getContactMember();
     std::vector<Person<>> allList;
     for (auto &cId : contactList)
     {
@@ -129,6 +129,67 @@ std::vector<std::string> Service::getAllContacts() const
     return all;
 }
 
+std::vector<std::string> Service::getCertainContact(const IdType &id) const
+{
+    std::vector<std::string> info;
+    const auto *p = findContactById(id);
+    if (p)
+    {
+        info = p->returnInfo();
+    }
+    return info;
+}
+
+const Person<> *Service::findContactById(const IdType &id) const
+{
+    return dataManager.findById(id);
+}
+
+bool Service::addContact(const std::string &infoStr, IdType addingId) // 增
+{
+    Person<> *owner = nullptr;
+    for (auto &person : dataManager.getAll())
+    {
+        if (person.getId() == addingId)
+        {
+            owner = &person;
+        }
+    }
+    if (!owner)
+    {
+        return false;
+    }
+    Person<> newP = parseContactInfo(infoStr);
+    // std::cout << infoStr << std::endl;
+    if (newP.getId() == InvalidId)
+    {
+        // std::cerr << "parse failed\n";
+        return false;
+    }
+
+    const IdType newId = newP.getId();
+
+    if (!dataManager.existsId(newId))
+    {
+        dataManager.add(newP);
+    }
+    else
+    {
+        auto &all = dataManager.getAll();
+        for (auto &person : all)
+        {
+            if (person.getId() == newId)
+            {
+                person.update(newP);
+                break;
+            }
+        }
+    }
+
+    owner->addContactMember(newId);
+    return true;
+}
+
 const Person<> *Service::findContactByName(const std::string &name) const
 {
     return dataManager.findByName(name);
@@ -150,7 +211,7 @@ bool Service::updateContact(const std::string &name, const std::string &newInfoS
 std::vector<std::vector<double>> Service::buildRelationNetwork() const
 {
     // 从已排序的 persons 列表中提取 ID
-    std::vector<char> idList;
+    std::vector<IdType> idList;
     for (const auto &person : dataManager.getAll())
     {
         idList.push_back(person.getId());
@@ -164,8 +225,8 @@ std::vector<std::vector<double>> Service::buildRelationNetwork() const
     {
         for (int j = 0; j < n; j++)
         {
-            char idI = idList[i];
-            char idJ = idList[j];
+            IdType idI = idList[i];
+            IdType idJ = idList[j];
 
             const Person<> *personI = dataManager.findById(idI);
             const Person<> *personJ = dataManager.findById(idJ);
@@ -211,9 +272,9 @@ std::vector<std::vector<double>> Service::buildRelationNetwork() const
     return network;
 }
 
-std::vector<char> Service::getSortedIdList() const
+std::vector<IdType> Service::getSortedIdList() const
 {
-    std::vector<char> idList;
+    std::vector<IdType> idList;
     for (const auto &person : dataManager.getAll())
     {
         idList.push_back(person.getId());

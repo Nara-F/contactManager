@@ -4,7 +4,11 @@
 #include <string>
 #include <vector>
 
-template <typename Tid = char>
+using IdType = char;
+
+static const IdType InvalidId = IdType{};
+
+template <typename Tid = IdType>
 class Person
 {
 public:

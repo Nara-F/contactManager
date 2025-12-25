@@ -59,7 +59,10 @@ std::vector<Person<>> FileManager::read(const std::string &fileName) const
         if (fields.size() < 8)
             continue;
 
-        char id = fields[0].empty() ? '\0' : fields[0][0];
+        IdType id;
+        std::istringstream ssId(fields[0]);
+        ssId >> id;
+
         std::string name = fields[1];
         Person<>::Gender gender = (fields[2] == "男") ? Person<>::Gender::Male : Person<>::Gender::Female;
         int age = 0;
