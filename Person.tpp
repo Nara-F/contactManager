@@ -4,120 +4,143 @@
 #include <algorithm>
 #include <sstream>
 
-Person::Person()
+template <typename Tid>
+Person<Tid>::Person()
     : id('\0'), name(), gender(Gender::Female), age(0), telephone(), city(), school(), address(), contactMember()
 {
 }
 
-Person::~Person() {}
-
-Person::Person(char id,
-               const std::string &name,
-               Gender gender,
-               int age,
-               const std::string &telephone,
-               const std::string &city,
-               const std::string &school,
-               const std::string &address)
-    : id(id), name(name), gender(gender), age(age), telephone(telephone), city(city), school(school), address(address) {}
-
-Person::Person(char id)
+template <typename Tid>
+Person<Tid>::Person(Tid id)
     : id(id), name("尚未录入"), gender(Gender::Female), age(0), telephone("尚未录入"), city("尚未录入"), school("尚未录入"), address("尚未录入"), contactMember()
 {
 }
 
-char Person::getId() const
+template <typename Tid>
+Person<Tid>::~Person() {}
+
+template <typename Tid>
+Person<Tid>::Person(Tid id,
+                    const std::string &name,
+                    Gender gender,
+                    int age,
+                    const std::string &telephone,
+                    const std::string &city,
+                    const std::string &school,
+                    const std::string &address)
+    : id(id), name(name), gender(gender), age(age), telephone(telephone), city(city), school(school), address(address) {}
+
+template <typename Tid>
+Tid Person<Tid>::getId() const
 {
     return id;
 }
 
-const std::string &Person::getName() const
+template <typename Tid>
+const std::string &Person<Tid>::getName() const
 {
     return name;
 }
 
-Person::Gender Person::getGender() const
+template <typename Tid>
+typename Person<Tid>::Gender Person<Tid>::getGender() const
 {
     return gender;
 }
 
-int Person::getAge() const
+template <typename Tid>
+int Person<Tid>::getAge() const
 {
     return age;
 }
 
-const std::string &Person::getTelephone() const
+template <typename Tid>
+const std::string &Person<Tid>::getTelephone() const
 {
     return telephone;
 }
 
-const std::string &Person::getCity() const
+template <typename Tid>
+const std::string &Person<Tid>::getCity() const
 {
     return city;
 }
 
-const std::string &Person::getSchool() const
+template <typename Tid>
+const std::string &Person<Tid>::getSchool() const
 {
     return school;
 }
 
-const std::string &Person::getAddress() const
+template <typename Tid>
+const std::string &Person<Tid>::getAddress() const
 {
     return address;
 }
 
-const std::vector<char> &Person::getContactMember() const
+template <typename Tid>
+const std::vector<Tid> &Person<Tid>::getContactMember() const
 {
     return contactMember;
 }
 
-void Person::setId(char id)
+template <typename Tid>
+void Person<Tid>::setId(Tid id)
 {
     this->id = id;
 }
 
-void Person::setName(const std::string &name)
+template <typename Tid>
+void Person<Tid>::setName(const std::string &name)
 {
     this->name = name;
 }
 
-void Person::setGender(Gender gender)
+template <typename Tid>
+void Person<Tid>::setGender(Gender gender)
 {
     this->gender = gender;
 }
 
-void Person::setAge(int age)
+template <typename Tid>
+void Person<Tid>::setAge(int age)
 {
     this->age = age;
 }
 
-void Person::setTelephone(const std::string &telephone)
+template <typename Tid>
+void Person<Tid>::setTelephone(const std::string &telephone)
 {
     this->telephone = telephone;
 }
 
-void Person::setCity(const std::string &city)
+template <typename Tid>
+void Person<Tid>::setCity(const std::string &city)
 {
     this->city = city;
 }
 
-void Person::setSchool(const std::string &school)
+template <typename Tid>
+void Person<Tid>::setSchool(const std::string &school)
 {
     this->school = school;
 }
 
-void Person::setAddress(const std::string &address)
+template <typename Tid>
+void Person<Tid>::setAddress(const std::string &address)
 {
     this->address = address;
 }
 
-void Person::addContactMember(char id)
+template <typename Tid>
+void Person<Tid>::addContactMember(Tid id)
 {
     contactMember.push_back(id);
     sort(contactMember.begin(), contactMember.end());
 }
 
-bool Person::removeContactMember(char id)
+template <typename Tid>
+bool Person<Tid>::removeContactMember(Tid id)
 {
     for (auto it = contactMember.begin(); it != contactMember.end(); ++it)
     {
@@ -131,7 +154,8 @@ bool Person::removeContactMember(char id)
     return false;
 }
 
-void Person::displayInfo() const
+template <typename Tid>
+void Person<Tid>::displayInfo() const
 {
     std::cout << "ID: " << id << "  名字: " << name
               << "性别: " << (gender == Gender::Male ? "男" : "女") << std::endl;
@@ -147,7 +171,8 @@ void Person::displayInfo() const
     std::cout << std::endl;
 }
 
-std::vector<std::string> Person::returnInfo() const
+template <typename Tid>
+std::vector<std::string> Person<Tid>::returnInfo() const
 {
     std::vector<std::string> retstr;
     std::ostringstream ss;
@@ -177,7 +202,8 @@ std::vector<std::string> Person::returnInfo() const
     return retstr;
 }
 
-void Person::update(const Person &newInfo)
+template <typename Tid>
+void Person<Tid>::update(const Person<Tid> &newInfo)
 {
     // 保留原有联系人列表，更新其他字段
     const auto oldContacts = contactMember;

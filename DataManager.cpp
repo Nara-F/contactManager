@@ -12,12 +12,12 @@ void DataManager::clear()
     persons.clear();
 }
 
-void DataManager::load(const std::list<Person> &persons)
+void DataManager::load(const std::list<Person<>> &persons)
 {
     for (const auto &newp : persons)
     {
         auto it = std::find_if(this->persons.begin(), this->persons.end(),
-                               [&](const Person &p)
+                               [&](const Person<> &p)
                                { return p.getId() == newp.getId(); });
 
         if (it == this->persons.end())
@@ -30,35 +30,25 @@ void DataManager::load(const std::list<Person> &persons)
             it->update(newp);
         }
     }
-    this->persons.sort([](const Person &a, const Person &b)
+    this->persons.sort([](const Person<> &a, const Person<> &b)
                        { return a.getId() < b.getId(); });
 }
 
-std::list<Person> &DataManager::getAll()
+std::list<Person<>> &DataManager::getAll()
 {
     return persons;
 }
 
-const std::list<Person> &DataManager::getAll() const
+const std::list<Person<>> &DataManager::getAll() const
 {
     return persons;
 }
 
-const Person *DataManager::findByName(const std::string &name) const
+const Person<> *DataManager::findByName(const std::string &name) const
 {
     for (auto it = persons.cbegin(); it != persons.cend(); ++it)
     {
         if (it->getName() == name)
-            return &*it;
-    }
-    return nullptr;
-}
-
-const Person *DataManager::findById(const char &id) const
-{
-    for (auto it = persons.cbegin(); it != persons.cend(); ++it)
-    {
-        if (it->getId() == id)
             return &*it;
     }
     return nullptr;
@@ -74,12 +64,12 @@ bool DataManager::existsId(char id) const
     return false;
 }
 
-bool DataManager::add(const Person &p)
+bool DataManager::add(const Person<> &p)
 {
     if (existsId(p.getId()))
         return false;
     persons.push_back(p);
-    this->persons.sort([](const Person &a, const Person &b)
+    this->persons.sort([](const Person<> &a, const Person<> &b)
                        { return a.getId() < b.getId(); });
     return true;
 }
@@ -88,9 +78,9 @@ bool DataManager::addById(char id)
 {
     if (existsId(id))
         return false;
-    Person p(id);
+    Person<> p(id);
     persons.push_back(p);
-    this->persons.sort([](const Person &a, const Person &b)
+    this->persons.sort([](const Person<> &a, const Person<> &b)
                        { return a.getId() < b.getId(); });
     return true;
 }
@@ -122,7 +112,7 @@ bool DataManager::removeByName(const std::string &name)
     return true;
 }
 
-bool DataManager::updateByName(const std::string &name, const Person &newInfo)
+bool DataManager::updateByName(const std::string &name, const Person<> &newInfo)
 {
     char id, newId;
     for (auto it = persons.begin(); it != persons.end(); ++it)

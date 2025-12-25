@@ -38,9 +38,9 @@ std::vector<std::string> FileManager::getFileList(const std::string &directory) 
     return list;
 }
 
-std::vector<Person> FileManager::read(const std::string &fileName) const
+std::vector<Person<>> FileManager::read(const std::string &fileName) const
 {
-    std::vector<Person> result;
+    std::vector<Person<>> result;
     std::ifstream ifs(fileName);
     if (!ifs)
         return result;
@@ -61,7 +61,7 @@ std::vector<Person> FileManager::read(const std::string &fileName) const
 
         char id = fields[0].empty() ? '\0' : fields[0][0];
         std::string name = fields[1];
-        Person::Gender gender = (fields[2] == "男") ? Person::Gender::Male : Person::Gender::Female;
+        Person<>::Gender gender = (fields[2] == "男") ? Person<>::Gender::Male : Person<>::Gender::Female;
         int age = 0;
         try
         {
@@ -75,7 +75,7 @@ std::vector<Person> FileManager::read(const std::string &fileName) const
         std::string school = fields[6];
         std::string address = fields[7];
 
-        Person p(id, name, gender, age, telephone, city, school, address);
+        Person<> p(id, name, gender, age, telephone, city, school, address);
 
         result.push_back(std::move(p));
     }
@@ -83,7 +83,7 @@ std::vector<Person> FileManager::read(const std::string &fileName) const
     return result;
 }
 
-bool FileManager::write(const std::string &fileName, const std::vector<Person> &persons) const
+bool FileManager::write(const std::string &fileName, const std::vector<Person<>> &persons) const
 {
     std::ofstream ofs(fileName);
     if (!ofs)
@@ -93,7 +93,7 @@ bool FileManager::write(const std::string &fileName, const std::vector<Person> &
     {
         ofs << p.getId() << ' '
             << p.getName() << ' '
-            << (p.getGender() == Person::Gender::Male ? "男" : "女") << ' '
+            << (p.getGender() == Person<>::Gender::Male ? "男" : "女") << ' '
             << p.getAge() << ' '
             << p.getTelephone() << ' '
             << p.getCity() << ' '

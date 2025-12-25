@@ -20,7 +20,7 @@ bool Service::initialize()
     return true;
 }
 
-Person Service::parseContactInfo(std::string infoStr) const
+Person<> Service::parseContactInfo(std::string infoStr) const
 {
     // 期望格式：id name gender age telephone city school address （空格分隔，gender 为 男/女）
     std::istringstream ss(infoStr);
@@ -32,13 +32,13 @@ Person Service::parseContactInfo(std::string infoStr) const
     {
         std::cerr << "praseErrInformation" << ss.str() << std::endl;
         //  输入字段不足或格式错误，返回空对象
-        return Person('\0', "", Person::Gender::Female, 0, "00000000000", "", "", "");
+        return Person<>('\0', "", Person<>::Gender::Female, 0, "00000000000", "", "", "");
     }
     // std::cout << id << std::endl;
 
-    Person::Gender gender = (genderStr == "男") ? Person::Gender::Male : Person::Gender::Female;
+    Person<>::Gender gender = (genderStr == "男") ? Person<>::Gender::Male : Person<>::Gender::Female;
 
-    return Person(id, name, gender, age, telephone, city, school, address);
+    return Person<>(id, name, gender, age, telephone, city, school, address);
 }
 
 std::vector<std::string> Service::getFileList() const
@@ -48,7 +48,7 @@ std::vector<std::string> Service::getFileList() const
 
 int Service::loadFromFile(const std::string &filename)
 {
-    std::vector<Person> persons = fileManager.read(dataDir + filename);
+    std::vector<Person<>> persons = fileManager.read(dataDir + filename);
     if (persons.empty())
     {
         currentFileName.clear();
@@ -73,7 +73,7 @@ int Service::loadFromFile(const std::string &filename)
         }
         if (!find)
         {
-            Person newPerson(idFile);
+            Person<> newPerson(idFile);
             for (auto &newContact : persons)
             {
                 newPerson.addContactMember(newContact.getId());
@@ -82,23 +82,23 @@ int Service::loadFromFile(const std::string &filename)
         }
     }
 
-    std::list<Person> lst(persons.begin(), persons.end());
+    std::list<Person<>> lst(persons.begin(), persons.end());
     dataManager.load(lst);
     currentFileName = filename;
     return 1;
 }
 
-bool Service::saveToFile(const Person &p)
+bool Service::saveToFile(const Person<> &p)
 {
     std::string filename;
     filename += p.getId();
     filename += ".txt";
 
     std::vector<char> contactList = p.getContactMember();
-    std::vector<Person> allList;
+    std::vector<Person<>> allList;
     for (auto &cId : contactList)
     {
-        const Person *contact = dataManager.findById(cId);
+        const Person<> *contact = dataManager.findById(cId);
         if (contact)
         {
             allList.push_back(*contact);
@@ -129,70 +129,9 @@ std::vector<std::string> Service::getAllContacts() const
     return all;
 }
 
-std::vector<std::string> Service::getCertainContact(const char &id) const
-{
-    std::vector<std::string> info;
-    const auto *p = findContactById(id);
-    if (p)
-    {
-        info = p->returnInfo();
-    }
-    return info;
-}
-
-const Person *Service::findContactByName(const std::string &name) const
+const Person<> *Service::findContactByName(const std::string &name) const
 {
     return dataManager.findByName(name);
-}
-
-const Person *Service::findContactById(const char &id) const
-{
-    return dataManager.findById(id);
-}
-
-bool Service::addContact(const std::string &infoStr, char addingId)
-{
-    Person *owner = nullptr;
-    for (auto &person : dataManager.getAll())
-    {
-        if (person.getId() == addingId)
-        {
-            owner = &person;
-        }
-    }
-    if (!owner)
-    {
-        return false;
-    }
-    Person newP = parseContactInfo(infoStr);
-    // std::cout << infoStr << std::endl;
-    if (newP.getId() == '\0')
-    {
-        // std::cerr << "parse failed\n";
-        return false;
-    }
-
-    const char newId = newP.getId();
-
-    if (!dataManager.existsId(newId))
-    {
-        dataManager.add(newP);
-    }
-    else
-    {
-        auto &all = dataManager.getAll();
-        for (auto &person : all)
-        {
-            if (person.getId() == newId)
-            {
-                person.update(newP);
-                break;
-            }
-        }
-    }
-
-    owner->addContactMember(newId);
-    return true;
 }
 
 bool Service::deleteContactByName(const std::string &name)
@@ -203,7 +142,7 @@ bool Service::deleteContactByName(const std::string &name)
 
 bool Service::updateContact(const std::string &name, const std::string &newInfoStr)
 {
-    Person p = parseContactInfo(newInfoStr);
+    Person<> p = parseContactInfo(newInfoStr);
     bool ok = dataManager.updateByName(name, p);
     return ok;
 }
@@ -228,8 +167,8 @@ std::vector<std::vector<double>> Service::buildRelationNetwork() const
             char idI = idList[i];
             char idJ = idList[j];
 
-            const Person *personI = dataManager.findById(idI);
-            const Person *personJ = dataManager.findById(idJ);
+            const Person<> *personI = dataManager.findById(idI);
+            const Person<> *personJ = dataManager.findById(idJ);
 
             if (!personI || !personJ)
             {

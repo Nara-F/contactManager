@@ -5,7 +5,6 @@
 #include <list>
 #include <string>
 
-class Person;
 class Service;
 
 class UserInterface

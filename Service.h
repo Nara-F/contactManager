@@ -6,8 +6,8 @@
 
 #include "FileManager.h"
 #include "DataManager.h"
+#include "Person.h"
 
-class Person;
 class DataManager;
 class FileManager;
 
@@ -19,19 +19,80 @@ public:
 
     bool initialize();
 
-    Person parseContactInfo(std::string infoStr) const; // 解析信息为Person
+    Person<> parseContactInfo(std::string infoStr) const; // 解析信息为Person
 
     std::vector<std::string> getFileList() const;  // 获取文件列表
     int loadFromFile(const std::string &filename); // 从文件加载联系人数据 //需要判断id是否重复并预处理为persons链表传入dataManager
-    bool saveToFile(const Person &p);              // 保存单个人的所有通讯人信息到文件
+    bool saveToFile(const Person<> &p);            // 保存单个人的所有通讯人信息到文件
     const std::string &getCurrentFileName() const; // 返回文件名
 
     std::vector<std::string> getAllContacts() const; // 查
-    std::vector<std::string> getCertainContact(const char &id) const;
-    const Person *findContactByName(const std::string &name) const;
-    const Person *findContactById(const char &id) const;
 
-    bool addContact(const std::string &infoStr, char addingId); // 增
+    template <typename T>
+    std::vector<std::string> getCertainContact(const T &id) const
+    {
+        std::vector<std::string> info;
+        const auto *p = findContactById(id);
+        if (p)
+        {
+            info = p->returnInfo();
+        }
+        return info;
+    }
+
+    const Person<> *findContactByName(const std::string &name) const;
+
+    template <typename T>
+    const Person<> *findContactById(const T &id) const
+    {
+        return dataManager.findById(id);
+    }
+
+    template <typename T>
+    bool addContact(const std::string &infoStr, T addingId) // 增
+    {
+        Person<> *owner = nullptr;
+        for (auto &person : dataManager.getAll())
+        {
+            if (person.getId() == addingId)
+            {
+                owner = &person;
+            }
+        }
+        if (!owner)
+        {
+            return false;
+        }
+        Person<> newP = parseContactInfo(infoStr);
+        // std::cout << infoStr << std::endl;
+        if (newP.getId() == '\0')
+        {
+            // std::cerr << "parse failed\n";
+            return false;
+        }
+
+        const char newId = newP.getId();
+
+        if (!dataManager.existsId(newId))
+        {
+            dataManager.add(newP);
+        }
+        else
+        {
+            auto &all = dataManager.getAll();
+            for (auto &person : all)
+            {
+                if (person.getId() == newId)
+                {
+                    person.update(newP);
+                    break;
+                }
+            }
+        }
+
+        owner->addContactMember(newId);
+        return true;
+    }
 
     bool deleteContactByName(const std::string &name); // 删
 

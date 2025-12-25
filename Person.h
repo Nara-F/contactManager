@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+template <typename Tid = char>
 class Person
 {
 public:
@@ -14,7 +15,7 @@ public:
     };
 
     Person();
-    Person(char id,
+    Person(Tid id,
            const std::string &name,
            Gender gender,
            int age,
@@ -22,11 +23,11 @@ public:
            const std::string &city,
            const std::string &school,
            const std::string &address);
-    Person(char id);
+    Person(Tid id);
 
     virtual ~Person();
 
-    char getId() const;
+    Tid getId() const;
     const std::string &getName() const;
     Gender getGender() const;
     int getAge() const;
@@ -34,9 +35,9 @@ public:
     const std::string &getCity() const;
     const std::string &getSchool() const;
     const std::string &getAddress() const;
-    const std::vector<char> &getContactMember() const;
+    const std::vector<Tid> &getContactMember() const;
 
-    void setId(char id);
+    void setId(Tid id);
     void setName(const std::string &name);
     void setGender(Gender gender);
     void setAge(int age);
@@ -44,8 +45,8 @@ public:
     void setCity(const std::string &city);
     void setSchool(const std::string &school);
     void setAddress(const std::string &address);
-    void addContactMember(char id);
-    bool removeContactMember(char id);
+    void addContactMember(Tid id);
+    bool removeContactMember(Tid id);
 
     void displayInfo() const;
     std::vector<std::string> returnInfo() const;
@@ -53,7 +54,7 @@ public:
     void update(const Person &newInfo);
 
 private:
-    char id;
+    Tid id;
     std::string name;
     Gender gender;
     int age;
@@ -61,5 +62,7 @@ private:
     std::string city;
     std::string school;
     std::string address;
-    std::vector<char> contactMember; // 按id存储联系人列表
+    std::vector<Tid> contactMember; // 按id存储联系人列表
 };
+
+#include "Person.tpp"
