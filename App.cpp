@@ -170,7 +170,15 @@ void App::handleContactModification()
             continue;
         }
 
-        if (service.updateContact(name, ui.getNewInformationName("请输入新的人员信息：", name)))
+        std::string newInfo = ui.getNewInformationName("请输入新的人员信息", name);
+        if (newInfo.empty())
+        {
+            std::cout << "已取消修改。" << std::endl;
+            Sleep(1000);
+            return;
+        }
+
+        if (service.updateContact(name, newInfo))
         {
             ui.showModifySuccessMessage(name);
             Sleep(3000);
@@ -219,11 +227,23 @@ void App::handleContactAddition() // 可以拓展加上同id信息覆盖的选�
     */
     // else
     //{
-    while (!service.addContact(ui.getNewInformationId("请输入新的联系人信息：", id), addingId))
+    while (true)
     {
+        std::string newInfo = ui.getNewInformationId("请输入新的联系人信息", id);
+        if (newInfo.empty())
+        {
+            std::cout << "已取消添加。" << std::endl;
+            Sleep(1000);
+            return;
+        }
+
+        if (service.addContact(newInfo, addingId))
+        {
+            ui.showAddSuccessMessage(addingId, id);
+            break;
+        }
         ui.showAddErrorMessage(addingId, id);
     }
-    ui.showAddSuccessMessage(addingId, id);
     //}
     Sleep(3000);
 }

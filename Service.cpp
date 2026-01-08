@@ -22,19 +22,43 @@ bool Service::initialize()
 
 Person<> Service::parseContactInfo(std::string infoStr) const
 {
-    // 期望格式：id name gender age telephone city school address （空格分隔，gender 为 男/女）
-    std::istringstream ss(infoStr);
-    std::string name, genderStr, telephone, city, school, address;
-    IdType id = InvalidId;
-    int age = 0;
-
-    if (!(ss >> id >> name >> genderStr >> age >> telephone >> city >> school >> address))
+    // 期望格式：id|name|gender|age|telephone|city|school|address（使用|分隔）
+    if (infoStr.empty())
     {
-        std::cerr << "praseErrInformation" << ss.str() << std::endl;
-        //  输入字段不足或格式错误，返回空对象
         return Person<>(InvalidId, "", Person<>::Gender::Female, 0, "00000000000", "", "", "");
     }
-    // std::cout << id << std::endl;
+
+    std::vector<std::string> fields;
+    std::string field;
+    std::istringstream ss(infoStr);
+
+    while (std::getline(ss, field, '|'))
+    {
+        fields.push_back(field);
+    }
+
+    if (fields.size() < 8)
+    {
+        std::cerr << "parseErrInformation: 字段不足 " << infoStr << std::endl;
+        return Person<>(InvalidId, "", Person<>::Gender::Female, 0, "00000000000", "", "", "");
+    }
+
+    IdType id = fields[0].empty() ? InvalidId : fields[0][0];
+    std::string name = fields[1];
+    std::string genderStr = fields[2];
+    int age = 0;
+    try
+    {
+        age = std::stoi(fields[3]);
+    }
+    catch (...)
+    {
+        age = 0;
+    }
+    std::string telephone = fields[4];
+    std::string city = fields[5];
+    std::string school = fields[6];
+    std::string address = fields[7];
 
     Person<>::Gender gender = (genderStr == "男") ? Person<>::Gender::Male : Person<>::Gender::Female;
 

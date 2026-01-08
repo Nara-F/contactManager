@@ -53,8 +53,8 @@ std::vector<Person<>> FileManager::read(const std::string &fileName) const
         std::istringstream ss(line);
         std::string token;
         std::vector<std::string> fields;
-        while (std::getline(ss, token, ' '))
-            fields.push_back(token); // 空格分隔
+        while (std::getline(ss, token, '|'))
+            fields.push_back(token); // 使用|分隔
 
         if (fields.size() < 8)
             continue;
@@ -94,13 +94,13 @@ bool FileManager::write(const std::string &fileName, const std::vector<Person<>>
 
     for (const auto &p : persons)
     {
-        ofs << p.getId() << ' '
-            << p.getName() << ' '
-            << (p.getGender() == Person<>::Gender::Male ? "男" : "女") << ' '
-            << p.getAge() << ' '
-            << p.getTelephone() << ' '
-            << p.getCity() << ' '
-            << p.getSchool() << ' '
+        ofs << p.getId() << '|'
+            << p.getName() << '|'
+            << (p.getGender() == Person<>::Gender::Male ? "男" : "女") << '|'
+            << p.getAge() << '|'
+            << p.getTelephone() << '|'
+            << p.getCity() << '|'
+            << p.getSchool() << '|'
             << p.getAddress() << '\n';
     }
 
