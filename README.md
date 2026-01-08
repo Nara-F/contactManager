@@ -15,18 +15,19 @@
 ## 项目结构
 
 ```
-contactManager/
-├── main.cpp           # 程序入口
-├── App.cpp/h          # 应用主控制器
-├── Service.cpp/h      # 业务逻辑层
-├── DataManager.cpp/h  # 数据管理层
-├── FileManager.cpp/h  # 文件读写管理
-├── UserInterface.cpp/h # 用户界面交互
-├── Person.h/tpp       # 联系人模板类
-├── contactList/       # 联系人数据文件目录
-    ├── a.txt
-    ├── b.txt
-    └── ...
+ContactManager/
+├──src/
+   ├── main.cpp           # 程序入口
+   ├── App.cpp/h          # 应用主控制器
+   ├── Service.cpp/h      # 业务逻辑层
+   ├── DataManager.cpp/h  # 数据管理层
+   ├── FileManager.cpp/h  # 文件读写管理
+   ├── UserInterface.cpp/h # 用户界面交互
+   ├── Person.h/tpp       # 联系人模板类
+   ├── contactList/       # 联系人数据文件目录
+       ├── a.txt
+       ├── b.txt
+       └── ...
 ```
 
 ## 数据格式
@@ -48,6 +49,7 @@ a|张三|男|20|13800000001|北京|北京大学|北京市海淀区
 ### 编译
 
 ```bash
+cd src
 g++ -std=c++17 -o contactManager.exe main.cpp App.cpp Service.cpp DataManager.cpp FileManager.cpp UserInterface.cpp
 ```
 
