@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\ContactManager.dir/objects.a
+D:\MinGW\bin\ar.exe qc CMakeFiles\ContactManager.dir/objects.a @CMakeFiles\ContactManager.dir\objects1.rsp
+D:\MinGW\bin\c++.exe -g -Wl,--whole-archive CMakeFiles\ContactManager.dir/objects.a -Wl,--no-whole-archive -o ContactManager.exe -Wl,--out-implib,libContactManager.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\ContactManager.dir\linkLibs.rsp
