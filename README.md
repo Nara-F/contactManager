@@ -50,7 +50,7 @@ a|张三|男|20|13800000001|北京|北京大学|北京市海淀区
 
 ```bash
 cd src
-g++ -std=c++17 -o contactManager.exe main.cpp App.cpp Service.cpp DataManager.cpp FileManager.cpp UserInterface.cpp
+g++ -std=c++17 -o contactManager.exe main.cpp App.cpp Service.cpp DataManager.cpp FileManager.cpp UserInterface.cpp Person.tpp
 ```
 
 ### 运行
@@ -110,9 +110,9 @@ g++ -std=c++17 -o contactManager.exe main.cpp App.cpp Service.cpp DataManager.cp
 ### 核心技术
 
 | 技术                             | 应用场景                                  |
-| -------------------------------- | ----------------------------------------- | --- |
+| :------------------------------- | :---------------------------------------- |
 | **模板类 `Person<>`**            | 联系人数据结构，支持泛型 ID 类型          |
-| **STL 容器**                     | `std::vector`、`std::list` 存储联系人集合 |     |
+| **STL 容器**                     | `std::vector`、`std::list` 存储联系人集合 |
 | **字符串流 `std::stringstream`** | 数据解析与格式化                          |
 | **文件流 `std::fstream`**        | 文件读写操作                              |
 
