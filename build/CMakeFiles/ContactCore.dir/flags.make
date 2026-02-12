@@ -4,7 +4,7 @@
 # compile CXX with D:/MinGW/bin/g++.exe
 CXX_DEFINES = 
 
-CXX_INCLUDES = @CMakeFiles/ContactManager.dir/includes_CXX.rsp
+CXX_INCLUDES = @CMakeFiles/ContactCore.dir/includes_CXX.rsp
 
 CXX_FLAGS = -g -std=gnu++1z
 

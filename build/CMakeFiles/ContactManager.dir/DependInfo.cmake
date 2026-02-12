@@ -8,11 +8,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "D:/Files/code/projects/contactManager/src/App.cpp" "CMakeFiles/ContactManager.dir/src/App.cpp.obj" "gcc" "CMakeFiles/ContactManager.dir/src/App.cpp.obj.d"
-  "D:/Files/code/projects/contactManager/src/DataManager.cpp" "CMakeFiles/ContactManager.dir/src/DataManager.cpp.obj" "gcc" "CMakeFiles/ContactManager.dir/src/DataManager.cpp.obj.d"
-  "D:/Files/code/projects/contactManager/src/FileManager.cpp" "CMakeFiles/ContactManager.dir/src/FileManager.cpp.obj" "gcc" "CMakeFiles/ContactManager.dir/src/FileManager.cpp.obj.d"
-  "D:/Files/code/projects/contactManager/src/Service.cpp" "CMakeFiles/ContactManager.dir/src/Service.cpp.obj" "gcc" "CMakeFiles/ContactManager.dir/src/Service.cpp.obj.d"
-  "D:/Files/code/projects/contactManager/src/UserInterface.cpp" "CMakeFiles/ContactManager.dir/src/UserInterface.cpp.obj" "gcc" "CMakeFiles/ContactManager.dir/src/UserInterface.cpp.obj.d"
   "D:/Files/code/projects/contactManager/src/main.cpp" "CMakeFiles/ContactManager.dir/src/main.cpp.obj" "gcc" "CMakeFiles/ContactManager.dir/src/main.cpp.obj.d"
   )
 

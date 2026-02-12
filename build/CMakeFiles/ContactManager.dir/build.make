@@ -71,119 +71,35 @@ include CMakeFiles/ContactManager.dir/flags.make
 CMakeFiles/ContactManager.dir/codegen:
 .PHONY : CMakeFiles/ContactManager.dir/codegen
 
-CMakeFiles/ContactManager.dir/src/App.cpp.obj: CMakeFiles/ContactManager.dir/flags.make
-CMakeFiles/ContactManager.dir/src/App.cpp.obj: CMakeFiles/ContactManager.dir/includes_CXX.rsp
-CMakeFiles/ContactManager.dir/src/App.cpp.obj: D:/Files/code/projects/contactManager/src/App.cpp
-CMakeFiles/ContactManager.dir/src/App.cpp.obj: CMakeFiles/ContactManager.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Files\code\projects\contactManager\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ContactManager.dir/src/App.cpp.obj"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ContactManager.dir/src/App.cpp.obj -MF CMakeFiles\ContactManager.dir\src\App.cpp.obj.d -o CMakeFiles\ContactManager.dir\src\App.cpp.obj -c D:\Files\code\projects\contactManager\src\App.cpp
-
-CMakeFiles/ContactManager.dir/src/App.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ContactManager.dir/src/App.cpp.i"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Files\code\projects\contactManager\src\App.cpp > CMakeFiles\ContactManager.dir\src\App.cpp.i
-
-CMakeFiles/ContactManager.dir/src/App.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ContactManager.dir/src/App.cpp.s"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Files\code\projects\contactManager\src\App.cpp -o CMakeFiles\ContactManager.dir\src\App.cpp.s
-
-CMakeFiles/ContactManager.dir/src/DataManager.cpp.obj: CMakeFiles/ContactManager.dir/flags.make
-CMakeFiles/ContactManager.dir/src/DataManager.cpp.obj: CMakeFiles/ContactManager.dir/includes_CXX.rsp
-CMakeFiles/ContactManager.dir/src/DataManager.cpp.obj: D:/Files/code/projects/contactManager/src/DataManager.cpp
-CMakeFiles/ContactManager.dir/src/DataManager.cpp.obj: CMakeFiles/ContactManager.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Files\code\projects\contactManager\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/ContactManager.dir/src/DataManager.cpp.obj"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ContactManager.dir/src/DataManager.cpp.obj -MF CMakeFiles\ContactManager.dir\src\DataManager.cpp.obj.d -o CMakeFiles\ContactManager.dir\src\DataManager.cpp.obj -c D:\Files\code\projects\contactManager\src\DataManager.cpp
-
-CMakeFiles/ContactManager.dir/src/DataManager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ContactManager.dir/src/DataManager.cpp.i"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Files\code\projects\contactManager\src\DataManager.cpp > CMakeFiles\ContactManager.dir\src\DataManager.cpp.i
-
-CMakeFiles/ContactManager.dir/src/DataManager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ContactManager.dir/src/DataManager.cpp.s"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Files\code\projects\contactManager\src\DataManager.cpp -o CMakeFiles\ContactManager.dir\src\DataManager.cpp.s
-
-CMakeFiles/ContactManager.dir/src/FileManager.cpp.obj: CMakeFiles/ContactManager.dir/flags.make
-CMakeFiles/ContactManager.dir/src/FileManager.cpp.obj: CMakeFiles/ContactManager.dir/includes_CXX.rsp
-CMakeFiles/ContactManager.dir/src/FileManager.cpp.obj: D:/Files/code/projects/contactManager/src/FileManager.cpp
-CMakeFiles/ContactManager.dir/src/FileManager.cpp.obj: CMakeFiles/ContactManager.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Files\code\projects\contactManager\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ContactManager.dir/src/FileManager.cpp.obj"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ContactManager.dir/src/FileManager.cpp.obj -MF CMakeFiles\ContactManager.dir\src\FileManager.cpp.obj.d -o CMakeFiles\ContactManager.dir\src\FileManager.cpp.obj -c D:\Files\code\projects\contactManager\src\FileManager.cpp
-
-CMakeFiles/ContactManager.dir/src/FileManager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ContactManager.dir/src/FileManager.cpp.i"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Files\code\projects\contactManager\src\FileManager.cpp > CMakeFiles\ContactManager.dir\src\FileManager.cpp.i
-
-CMakeFiles/ContactManager.dir/src/FileManager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ContactManager.dir/src/FileManager.cpp.s"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Files\code\projects\contactManager\src\FileManager.cpp -o CMakeFiles\ContactManager.dir\src\FileManager.cpp.s
-
-CMakeFiles/ContactManager.dir/src/Service.cpp.obj: CMakeFiles/ContactManager.dir/flags.make
-CMakeFiles/ContactManager.dir/src/Service.cpp.obj: CMakeFiles/ContactManager.dir/includes_CXX.rsp
-CMakeFiles/ContactManager.dir/src/Service.cpp.obj: D:/Files/code/projects/contactManager/src/Service.cpp
-CMakeFiles/ContactManager.dir/src/Service.cpp.obj: CMakeFiles/ContactManager.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Files\code\projects\contactManager\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/ContactManager.dir/src/Service.cpp.obj"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ContactManager.dir/src/Service.cpp.obj -MF CMakeFiles\ContactManager.dir\src\Service.cpp.obj.d -o CMakeFiles\ContactManager.dir\src\Service.cpp.obj -c D:\Files\code\projects\contactManager\src\Service.cpp
-
-CMakeFiles/ContactManager.dir/src/Service.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ContactManager.dir/src/Service.cpp.i"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Files\code\projects\contactManager\src\Service.cpp > CMakeFiles\ContactManager.dir\src\Service.cpp.i
-
-CMakeFiles/ContactManager.dir/src/Service.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ContactManager.dir/src/Service.cpp.s"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Files\code\projects\contactManager\src\Service.cpp -o CMakeFiles\ContactManager.dir\src\Service.cpp.s
-
-CMakeFiles/ContactManager.dir/src/UserInterface.cpp.obj: CMakeFiles/ContactManager.dir/flags.make
-CMakeFiles/ContactManager.dir/src/UserInterface.cpp.obj: CMakeFiles/ContactManager.dir/includes_CXX.rsp
-CMakeFiles/ContactManager.dir/src/UserInterface.cpp.obj: D:/Files/code/projects/contactManager/src/UserInterface.cpp
-CMakeFiles/ContactManager.dir/src/UserInterface.cpp.obj: CMakeFiles/ContactManager.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Files\code\projects\contactManager\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/ContactManager.dir/src/UserInterface.cpp.obj"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ContactManager.dir/src/UserInterface.cpp.obj -MF CMakeFiles\ContactManager.dir\src\UserInterface.cpp.obj.d -o CMakeFiles\ContactManager.dir\src\UserInterface.cpp.obj -c D:\Files\code\projects\contactManager\src\UserInterface.cpp
-
-CMakeFiles/ContactManager.dir/src/UserInterface.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ContactManager.dir/src/UserInterface.cpp.i"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Files\code\projects\contactManager\src\UserInterface.cpp > CMakeFiles\ContactManager.dir\src\UserInterface.cpp.i
-
-CMakeFiles/ContactManager.dir/src/UserInterface.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ContactManager.dir/src/UserInterface.cpp.s"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Files\code\projects\contactManager\src\UserInterface.cpp -o CMakeFiles\ContactManager.dir\src\UserInterface.cpp.s
-
 CMakeFiles/ContactManager.dir/src/main.cpp.obj: CMakeFiles/ContactManager.dir/flags.make
 CMakeFiles/ContactManager.dir/src/main.cpp.obj: CMakeFiles/ContactManager.dir/includes_CXX.rsp
 CMakeFiles/ContactManager.dir/src/main.cpp.obj: D:/Files/code/projects/contactManager/src/main.cpp
 CMakeFiles/ContactManager.dir/src/main.cpp.obj: CMakeFiles/ContactManager.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Files\code\projects\contactManager\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/ContactManager.dir/src/main.cpp.obj"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ContactManager.dir/src/main.cpp.obj -MF CMakeFiles\ContactManager.dir\src\main.cpp.obj.d -o CMakeFiles\ContactManager.dir\src\main.cpp.obj -c D:\Files\code\projects\contactManager\src\main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Files\code\projects\contactManager\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ContactManager.dir/src/main.cpp.obj"
+	D:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ContactManager.dir/src/main.cpp.obj -MF CMakeFiles\ContactManager.dir\src\main.cpp.obj.d -o CMakeFiles\ContactManager.dir\src\main.cpp.obj -c D:\Files\code\projects\contactManager\src\main.cpp
 
 CMakeFiles/ContactManager.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ContactManager.dir/src/main.cpp.i"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Files\code\projects\contactManager\src\main.cpp > CMakeFiles\ContactManager.dir\src\main.cpp.i
+	D:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Files\code\projects\contactManager\src\main.cpp > CMakeFiles\ContactManager.dir\src\main.cpp.i
 
 CMakeFiles/ContactManager.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ContactManager.dir/src/main.cpp.s"
-	D:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Files\code\projects\contactManager\src\main.cpp -o CMakeFiles\ContactManager.dir\src\main.cpp.s
+	D:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Files\code\projects\contactManager\src\main.cpp -o CMakeFiles\ContactManager.dir\src\main.cpp.s
 
 # Object files for target ContactManager
 ContactManager_OBJECTS = \
-"CMakeFiles/ContactManager.dir/src/App.cpp.obj" \
-"CMakeFiles/ContactManager.dir/src/DataManager.cpp.obj" \
-"CMakeFiles/ContactManager.dir/src/FileManager.cpp.obj" \
-"CMakeFiles/ContactManager.dir/src/Service.cpp.obj" \
-"CMakeFiles/ContactManager.dir/src/UserInterface.cpp.obj" \
 "CMakeFiles/ContactManager.dir/src/main.cpp.obj"
 
 # External object files for target ContactManager
 ContactManager_EXTERNAL_OBJECTS =
 
-ContactManager.exe: CMakeFiles/ContactManager.dir/src/App.cpp.obj
-ContactManager.exe: CMakeFiles/ContactManager.dir/src/DataManager.cpp.obj
-ContactManager.exe: CMakeFiles/ContactManager.dir/src/FileManager.cpp.obj
-ContactManager.exe: CMakeFiles/ContactManager.dir/src/Service.cpp.obj
-ContactManager.exe: CMakeFiles/ContactManager.dir/src/UserInterface.cpp.obj
 ContactManager.exe: CMakeFiles/ContactManager.dir/src/main.cpp.obj
 ContactManager.exe: CMakeFiles/ContactManager.dir/build.make
+ContactManager.exe: libContactCore.a
 ContactManager.exe: CMakeFiles/ContactManager.dir/linkLibs.rsp
 ContactManager.exe: CMakeFiles/ContactManager.dir/objects1.rsp
 ContactManager.exe: CMakeFiles/ContactManager.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Files\code\projects\contactManager\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable ContactManager.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Files\code\projects\contactManager\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ContactManager.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\ContactManager.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

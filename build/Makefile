@@ -116,6 +116,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named ContactCore
+
+# Build rule for target.
+ContactCore: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 ContactCore
+.PHONY : ContactCore
+
+# fast build rule for target.
+ContactCore/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/build
+.PHONY : ContactCore/fast
+
+#=============================================================================
 # Target rules for targets named ContactManager
 
 # Build rule for target.
@@ -133,7 +146,7 @@ src/App.obj: src/App.cpp.obj
 
 # target to build an object file
 src/App.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/App.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/App.cpp.obj
 .PHONY : src/App.cpp.obj
 
 src/App.i: src/App.cpp.i
@@ -141,7 +154,7 @@ src/App.i: src/App.cpp.i
 
 # target to preprocess a source file
 src/App.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/App.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/App.cpp.i
 .PHONY : src/App.cpp.i
 
 src/App.s: src/App.cpp.s
@@ -149,7 +162,7 @@ src/App.s: src/App.cpp.s
 
 # target to generate assembly for a file
 src/App.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/App.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/App.cpp.s
 .PHONY : src/App.cpp.s
 
 src/DataManager.obj: src/DataManager.cpp.obj
@@ -157,7 +170,7 @@ src/DataManager.obj: src/DataManager.cpp.obj
 
 # target to build an object file
 src/DataManager.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/DataManager.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/DataManager.cpp.obj
 .PHONY : src/DataManager.cpp.obj
 
 src/DataManager.i: src/DataManager.cpp.i
@@ -165,7 +178,7 @@ src/DataManager.i: src/DataManager.cpp.i
 
 # target to preprocess a source file
 src/DataManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/DataManager.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/DataManager.cpp.i
 .PHONY : src/DataManager.cpp.i
 
 src/DataManager.s: src/DataManager.cpp.s
@@ -173,7 +186,7 @@ src/DataManager.s: src/DataManager.cpp.s
 
 # target to generate assembly for a file
 src/DataManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/DataManager.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/DataManager.cpp.s
 .PHONY : src/DataManager.cpp.s
 
 src/FileManager.obj: src/FileManager.cpp.obj
@@ -181,7 +194,7 @@ src/FileManager.obj: src/FileManager.cpp.obj
 
 # target to build an object file
 src/FileManager.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/FileManager.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/FileManager.cpp.obj
 .PHONY : src/FileManager.cpp.obj
 
 src/FileManager.i: src/FileManager.cpp.i
@@ -189,7 +202,7 @@ src/FileManager.i: src/FileManager.cpp.i
 
 # target to preprocess a source file
 src/FileManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/FileManager.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/FileManager.cpp.i
 .PHONY : src/FileManager.cpp.i
 
 src/FileManager.s: src/FileManager.cpp.s
@@ -197,7 +210,7 @@ src/FileManager.s: src/FileManager.cpp.s
 
 # target to generate assembly for a file
 src/FileManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/FileManager.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/FileManager.cpp.s
 .PHONY : src/FileManager.cpp.s
 
 src/Service.obj: src/Service.cpp.obj
@@ -205,7 +218,7 @@ src/Service.obj: src/Service.cpp.obj
 
 # target to build an object file
 src/Service.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/Service.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/Service.cpp.obj
 .PHONY : src/Service.cpp.obj
 
 src/Service.i: src/Service.cpp.i
@@ -213,7 +226,7 @@ src/Service.i: src/Service.cpp.i
 
 # target to preprocess a source file
 src/Service.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/Service.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/Service.cpp.i
 .PHONY : src/Service.cpp.i
 
 src/Service.s: src/Service.cpp.s
@@ -221,7 +234,7 @@ src/Service.s: src/Service.cpp.s
 
 # target to generate assembly for a file
 src/Service.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/Service.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/Service.cpp.s
 .PHONY : src/Service.cpp.s
 
 src/UserInterface.obj: src/UserInterface.cpp.obj
@@ -229,7 +242,7 @@ src/UserInterface.obj: src/UserInterface.cpp.obj
 
 # target to build an object file
 src/UserInterface.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/UserInterface.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/UserInterface.cpp.obj
 .PHONY : src/UserInterface.cpp.obj
 
 src/UserInterface.i: src/UserInterface.cpp.i
@@ -237,7 +250,7 @@ src/UserInterface.i: src/UserInterface.cpp.i
 
 # target to preprocess a source file
 src/UserInterface.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/UserInterface.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/UserInterface.cpp.i
 .PHONY : src/UserInterface.cpp.i
 
 src/UserInterface.s: src/UserInterface.cpp.s
@@ -245,7 +258,7 @@ src/UserInterface.s: src/UserInterface.cpp.s
 
 # target to generate assembly for a file
 src/UserInterface.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactManager.dir\build.make CMakeFiles/ContactManager.dir/src/UserInterface.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ContactCore.dir\build.make CMakeFiles/ContactCore.dir/src/UserInterface.cpp.s
 .PHONY : src/UserInterface.cpp.s
 
 src/main.obj: src/main.cpp.obj
@@ -280,6 +293,7 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... ContactCore
 	@echo ... ContactManager
 	@echo ... src/App.obj
 	@echo ... src/App.i

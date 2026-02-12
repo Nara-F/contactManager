@@ -51,5 +51,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/ContactCore.dir/DependInfo.cmake"
   "CMakeFiles/ContactManager.dir/DependInfo.cmake"
   )
