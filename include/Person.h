@@ -29,6 +29,8 @@ public:
            const std::string &address);
     Person(Tid id);
 
+    static Person fromString(const std::string &line);
+
     virtual ~Person();
 
     Tid getId() const;

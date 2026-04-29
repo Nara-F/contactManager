@@ -135,8 +135,8 @@ void Person<Tid>::setAddress(const std::string &address)
 template <typename Tid>
 void Person<Tid>::addContactMember(Tid id)
 {
-    contactMember.push_back(id);
-    sort(contactMember.begin(), contactMember.end());
+    auto it = std::lower_bound(contactMember.begin(), contactMember.end(), id);
+    contactMember.insert(it, id);
 }
 
 template <typename Tid>
@@ -148,7 +148,6 @@ bool Person<Tid>::removeContactMember(Tid id)
         {
             contactMember.erase(it);
             return true;
-            break;
         }
     }
     return false;
@@ -212,4 +211,49 @@ void Person<Tid>::update(const Person<Tid> &newInfo)
     {
         addContactMember(c);
     }
+}
+
+template <typename Tid>
+Person<Tid> Person<Tid>::fromString(const std::string &line)
+{
+    if (line.empty())
+    {
+        return Person(InvalidId, "", Person::Gender::Female, 0, "00000000000", "", "", "");
+    }
+
+    std::vector<std::string> fields;
+    std::string field;
+    std::istringstream ss(line);
+
+    while (std::getline(ss, field, '|'))
+    {
+        fields.push_back(field);
+    }
+
+    if (fields.size() < 8)
+    {
+        return Person(InvalidId, "", Person::Gender::Female, 0, "00000000000", "", "", "");
+    }
+
+    Tid id;
+    std::istringstream ssId(fields[0]);
+    ssId >> id;
+
+    std::string name = fields[1];
+    Gender gender = (fields[2] == "男") ? Gender::Male : Gender::Female;
+    int age = 0;
+    try
+    {
+        age = std::stoi(fields[3]);
+    }
+    catch (...)
+    {
+        age = 0;
+    }
+    std::string telephone = fields[4];
+    std::string city = fields[5];
+    std::string school = fields[6];
+    std::string address = fields[7];
+
+    return Person(id, name, gender, age, telephone, city, school, address);
 }

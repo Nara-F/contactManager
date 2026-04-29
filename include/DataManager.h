@@ -1,7 +1,7 @@
 // 数据（链表）管理类声明
 #pragma once
 
-#include <list>
+#include <vector>
 #include <string>
 
 #include "Person.h"
@@ -13,10 +13,10 @@ public:
     ~DataManager();
 
     void clear();
-    void load(const std::list<Person<>> &persons);
+    void load(const std::vector<Person<>> &persons);
 
-    std::list<Person<>> &getAll();             // 可写访问
-    const std::list<Person<>> &getAll() const; // 只读访问
+    std::vector<Person<>> &getAll();             // 可写访问
+    const std::vector<Person<>> &getAll() const; // 只读访问
 
     const Person<> *findByName(const std::string &name) const; // 按名字查找
 
@@ -31,5 +31,5 @@ public:
     bool updateByName(const std::string &name, const Person<> &newInfo);
 
 private:
-    std::list<Person<>> persons;
+    std::vector<Person<>> persons;
 };

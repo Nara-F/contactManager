@@ -3,10 +3,11 @@
 #include "FileManager.h"
 #include "Person.h"
 
-#include <list>
+#include <vector>
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include <unordered_set>
 Service::Service() {}
 
 Service::~Service() {}
@@ -22,47 +23,12 @@ bool Service::initialize()
 
 Person<> Service::parseContactInfo(std::string infoStr) const
 {
-    // 期望格式：id|name|gender|age|telephone|city|school|address（使用|分隔）
-    if (infoStr.empty())
+    Person<> p = Person<>::fromString(infoStr);
+    if (p.getId() == InvalidId && !infoStr.empty())
     {
-        return Person<>(InvalidId, "", Person<>::Gender::Female, 0, "00000000000", "", "", "");
+        std::cerr << "parseErrInformation: " << infoStr << std::endl;
     }
-
-    std::vector<std::string> fields;
-    std::string field;
-    std::istringstream ss(infoStr);
-
-    while (std::getline(ss, field, '|'))
-    {
-        fields.push_back(field);
-    }
-
-    if (fields.size() < 8)
-    {
-        std::cerr << "parseErrInformation: 字段不足 " << infoStr << std::endl;
-        return Person<>(InvalidId, "", Person<>::Gender::Female, 0, "00000000000", "", "", "");
-    }
-
-    IdType id = fields[0].empty() ? InvalidId : fields[0][0];
-    std::string name = fields[1];
-    std::string genderStr = fields[2];
-    int age = 0;
-    try
-    {
-        age = std::stoi(fields[3]);
-    }
-    catch (...)
-    {
-        age = 0;
-    }
-    std::string telephone = fields[4];
-    std::string city = fields[5];
-    std::string school = fields[6];
-    std::string address = fields[7];
-
-    Person<>::Gender gender = (genderStr == "男") ? Person<>::Gender::Male : Person<>::Gender::Female;
-
-    return Person<>(id, name, gender, age, telephone, city, school, address);
+    return p;
 }
 
 std::vector<std::string> Service::getFileList() const
@@ -106,8 +72,8 @@ int Service::loadFromFile(const std::string &filename)
         }
     }
 
-    std::list<Person<>> lst(persons.begin(), persons.end());
-    dataManager.load(lst);
+    std::vector<Person<>> vec(persons.begin(), persons.end());
+    dataManager.load(vec);
     currentFileName = filename;
     return 1;
 }
@@ -234,7 +200,6 @@ bool Service::updateContact(const std::string &name, const std::string &newInfoS
 
 std::vector<std::vector<double>> Service::buildRelationNetwork() const
 {
-    // 从已排序的 persons 列表中提取 ID
     std::vector<IdType> idList;
     for (const auto &person : dataManager.getAll())
     {
@@ -244,51 +209,37 @@ std::vector<std::vector<double>> Service::buildRelationNetwork() const
     int n = idList.size();
     std::vector<std::vector<double>> network(n, std::vector<double>(n, 0.0));
 
-    // 构建 n*n 关系矩阵，数值代表联系强度：1.0 双向，0.5 单向，0 无联系
+    // 预构建每个人员的联系人集合，O(1) 查找
+    std::vector<std::unordered_set<IdType>> contactSets;
+    contactSets.reserve(n);
+    for (IdType id : idList)
+    {
+        const Person<> *p = dataManager.findById(id);
+        if (p)
+        {
+            const auto &members = p->getContactMember();
+            contactSets.emplace_back(members.begin(), members.end());
+        }
+        else
+        {
+            contactSets.emplace_back();
+        }
+    }
+
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            IdType idI = idList[i];
-            IdType idJ = idList[j];
-
-            const Person<> *personI = dataManager.findById(idI);
-            const Person<> *personJ = dataManager.findById(idJ);
-
-            if (!personI || !personJ)
-            {
-                continue;
-            }
-
-            bool find1 = false, find2 = false;
-
-            // 检查 i 是否包含 j
-            for (const auto &cid : personI->getContactMember())
-            {
-                if (cid == idJ)
-                {
-                    find1 = true;
-                    break;
-                }
-            }
-
-            // 检查 j 是否包含 i
-            for (const auto &cid : personJ->getContactMember())
-            {
-                if (cid == idI)
-                {
-                    find2 = true;
-                    break;
-                }
-            }
+            bool find1 = contactSets[i].count(idList[j]) > 0;
+            bool find2 = contactSets[j].count(idList[i]) > 0;
 
             if (find1 && find2)
             {
-                network[i][j] = 1.0; // 双向联系
+                network[i][j] = 1.0;
             }
             else if (find1 || find2)
             {
-                network[i][j] = 0.5; // 单向联系
+                network[i][j] = 0.5;
             }
         }
     }

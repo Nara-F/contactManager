@@ -2,7 +2,6 @@
 #pragma once
 
 #include <vector>
-#include <list>
 #include <string>
 
 using IdType = char;

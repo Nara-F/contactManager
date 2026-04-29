@@ -12,7 +12,7 @@ void DataManager::clear()
     persons.clear();
 }
 
-void DataManager::load(const std::list<Person<>> &persons)
+void DataManager::load(const std::vector<Person<>> &persons)
 {
     for (const auto &newp : persons)
     {
@@ -30,16 +30,17 @@ void DataManager::load(const std::list<Person<>> &persons)
             it->update(newp);
         }
     }
-    this->persons.sort([](const Person<> &a, const Person<> &b)
-                       { return a.getId() < b.getId(); });
+    std::sort(this->persons.begin(), this->persons.end(),
+              [](const Person<> &a, const Person<> &b)
+              { return a.getId() < b.getId(); });
 }
 
-std::list<Person<>> &DataManager::getAll()
+std::vector<Person<>> &DataManager::getAll()
 {
     return persons;
 }
 
-const std::list<Person<>> &DataManager::getAll() const
+const std::vector<Person<>> &DataManager::getAll() const
 {
     return persons;
 }
@@ -84,9 +85,10 @@ bool DataManager::add(const Person<> &p)
 {
     if (existsId(p.getId()))
         return false;
-    persons.push_back(p);
-    this->persons.sort([](const Person<> &a, const Person<> &b)
-                       { return a.getId() < b.getId(); });
+    auto it = std::lower_bound(persons.begin(), persons.end(), p,
+                               [](const Person<> &a, const Person<> &b)
+                               { return a.getId() < b.getId(); });
+    persons.insert(it, p);
     return true;
 }
 
@@ -97,21 +99,23 @@ bool DataManager::addById(IdType id)
         return false;
     }
     Person<> p(id);
-    persons.push_back(p);
-    this->persons.sort([](const Person<> &a, const Person<> &b)
-                       { return a.getId() < b.getId(); });
+    auto it = std::lower_bound(persons.begin(), persons.end(), p,
+                               [](const Person<> &a, const Person<> &b)
+                               { return a.getId() < b.getId(); });
+    persons.insert(it, p);
     return true;
 }
 
 bool DataManager::removeByName(const std::string &name)
 {
-    IdType id;
-    auto it = persons.begin();
-    for (; it != persons.end();)
+    bool found = false;
+    IdType id = InvalidId;
+    for (auto it = persons.begin(); it != persons.end();)
     {
         if (it->getName() == name)
         {
             id = it->getId();
+            found = true;
             it = persons.erase(it);
         }
         else
@@ -119,9 +123,9 @@ bool DataManager::removeByName(const std::string &name)
             ++it;
         }
     }
-    if (it == persons.end() && id == '\0')
+    if (!found)
     {
-        return false; // 未找到该姓名
+        return false;
     }
     for (auto &p : persons)
     {
@@ -132,19 +136,26 @@ bool DataManager::removeByName(const std::string &name)
 
 bool DataManager::updateByName(const std::string &name, const Person<> &newInfo)
 {
-    IdType id, newId;
+    bool found = false;
+    IdType oldId = InvalidId;
+    IdType newId = InvalidId;
     for (auto it = persons.begin(); it != persons.end(); ++it)
     {
         if (it->getName() == name)
         {
-            id = it->getId();
+            oldId = it->getId();
             *it = newInfo;
             newId = it->getId();
+            found = true;
         }
+    }
+    if (!found)
+    {
+        return false;
     }
     for (auto &p : persons)
     {
-        if (p.removeContactMember(id))
+        if (p.removeContactMember(oldId))
             p.addContactMember(newId);
     }
     return true;

@@ -1,2 +1,2 @@
-D:\MinGW\bin\ar.exe qc libContactCore.a CMakeFiles/ContactCore.dir/src/App.cpp.obj CMakeFiles/ContactCore.dir/src/DataManager.cpp.obj CMakeFiles/ContactCore.dir/src/FileManager.cpp.obj CMakeFiles/ContactCore.dir/src/Service.cpp.obj CMakeFiles/ContactCore.dir/src/UserInterface.cpp.obj
-D:\MinGW\bin\ranlib.exe libContactCore.a
+G:\environments\mingw64\bin\ar.exe qc libContactCore.a CMakeFiles/ContactCore.dir/src/App.cpp.obj CMakeFiles/ContactCore.dir/src/DataManager.cpp.obj CMakeFiles/ContactCore.dir/src/FileManager.cpp.obj CMakeFiles/ContactCore.dir/src/Service.cpp.obj CMakeFiles/ContactCore.dir/src/UserInterface.cpp.obj
+G:\environments\mingw64\bin\ranlib.exe libContactCore.a

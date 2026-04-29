@@ -1,4 +1,4 @@
-D:/Files/code/projects/contactManager/build/CMakeFiles/ContactCore.dir
-D:/Files/code/projects/contactManager/build/CMakeFiles/ContactManager.dir
-D:/Files/code/projects/contactManager/build/CMakeFiles/edit_cache.dir
-D:/Files/code/projects/contactManager/build/CMakeFiles/rebuild_cache.dir
+G:/projects/contactManager/build/CMakeFiles/ContactCore.dir
+G:/projects/contactManager/build/CMakeFiles/ContactManager.dir
+G:/projects/contactManager/build/CMakeFiles/edit_cache.dir
+G:/projects/contactManager/build/CMakeFiles/rebuild_cache.dir

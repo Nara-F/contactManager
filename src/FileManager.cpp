@@ -28,7 +28,7 @@ std::vector<std::string> FileManager::getFileList(const std::string &directory) 
     do
     {
         const char *name = findData.cFileName;
-        if (strcmp(name, " .") == 0 || strcmp(name, "..") == 0)
+        if (strcmp(name, ".") == 0 || strcmp(name, "..") == 0)
             continue;
         if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
             list.emplace_back(name);
@@ -50,37 +50,12 @@ std::vector<Person<>> FileManager::read(const std::string &fileName) const
     {
         if (line.empty())
             continue;
-        std::istringstream ss(line);
-        std::string token;
-        std::vector<std::string> fields;
-        while (std::getline(ss, token, '|'))
-            fields.push_back(token); // 使用|分隔
 
-        if (fields.size() < 8)
-            continue;
-
-        IdType id;
-        std::istringstream ssId(fields[0]);
-        ssId >> id;
-
-        std::string name = fields[1];
-        Person<>::Gender gender = (fields[2] == "男") ? Person<>::Gender::Male : Person<>::Gender::Female;
-        int age = 0;
-        try
+        Person<> p = Person<>::fromString(line);
+        if (p.getId() != InvalidId)
         {
-            age = std::stoi(fields[3]);
+            result.push_back(std::move(p));
         }
-        catch (...)
-        {
-        }
-        std::string telephone = fields[4];
-        std::string city = fields[5];
-        std::string school = fields[6];
-        std::string address = fields[7];
-
-        Person<> p(id, name, gender, age, telephone, city, school, address);
-
-        result.push_back(std::move(p));
     }
 
     return result;

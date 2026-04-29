@@ -417,21 +417,29 @@ std::string UserInterface::getNewInformationId(const std::string &prompt, IdType
 
     while (!std::cin.eof())
     {
-        std::cout << "性别（男/女）：";
+        std::cout << "性别（男/女，输入0取消）：";
         std::getline(std::cin, gender);
 
+        if (gender == "0")
+        {
+            return "";
+        }
         if (gender == "男" || gender == "女")
         {
-            break; // 合法，跳出循环
+            break;
         }
 
-        std::cerr << "输入错误：性别只能是“男”或“女”，请重新输入。\n";
+        std::cerr << "输入错误：性别只能是「男」或「女」，请重新输入。\n";
     }
 
     while (!std::cin.eof())
     {
-        std::cout << "年龄：";
+        std::cout << "年龄（输入0取消）：";
         std::getline(std::cin, age);
+        if (age == "0")
+        {
+            return "";
+        }
         bool digit = false;
         for (auto &c : age)
         {
@@ -444,7 +452,7 @@ std::string UserInterface::getNewInformationId(const std::string &prompt, IdType
         }
         if (digit)
         {
-            break; // 合法，跳出循环
+            break;
         }
         std::cerr << "输入错误：请输入数字，请重新输入。\n";
     }
@@ -469,7 +477,6 @@ std::string UserInterface::getNewInformationId(const std::string &prompt, IdType
     if (address.empty())
         address = "未填写";
 
-    // 按约定顺序拼接：id|name|gender|age|telephone|city|school|address（使用|分隔）
     std::string retStr;
     retStr += id;
     retStr = retStr + "|" + name + "|" + gender + "|" + age + "|" +

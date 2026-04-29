@@ -13,7 +13,7 @@ add_library(ContactCore STATIC
 )
 
 target_include_directories(ContactCore PUBLIC include src)
-
+ 
 add_executable(ContactManager
 	src/main.cpp
 )
