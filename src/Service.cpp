@@ -356,22 +356,14 @@ bool Service::deleteContactByName(const std::string &name)
     return dataManager.removeByName(name);
 }
 
-bool Service::updateContact(const std::string &name, const std::string &newInfoStr)
+bool Service::updateContactById(const IdType &id, const std::string &newInfoStr)
 {
     if (!repository)
     {
         return false;
     }
 
-    std::vector<IdType> matchingIds;
-    for (const auto &person : dataManager.getAll())
-    {
-        if (person.getName() == name)
-        {
-            matchingIds.push_back(person.getId());
-        }
-    }
-    if (matchingIds.size() != 1)
+    if (!dataManager.existsId(id))
     {
         return false;
     }
@@ -382,7 +374,7 @@ bool Service::updateContact(const std::string &name, const std::string &newInfoS
         return false;
     }
 
-    const IdType oldId = matchingIds.front();
+    const IdType oldId = id;
     if (p.getId() != oldId && dataManager.existsId(p.getId()))
     {
         return false;
@@ -396,7 +388,7 @@ bool Service::updateContact(const std::string &name, const std::string &newInfoS
         return false;
     }
 
-    return dataManager.updateByName(name, p);
+    return dataManager.updateById(oldId, p);
 }
 
 std::vector<std::vector<double>> Service::buildRelationNetwork() const

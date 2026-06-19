@@ -161,19 +161,23 @@ bool DataManager::removeByName(const std::string &name)
     return true;
 }
 
-bool DataManager::updateByName(const std::string &name, const Person<> &newInfo)
+bool DataManager::updateById(const IdType &id, const Person<> &newInfo)
 {
+    if (id == InvalidId || newInfo.getId() == InvalidId)
+    {
+        return false;
+    }
+
+    const IdType oldId = id;
+    const IdType newId = newInfo.getId();
     bool found = false;
-    IdType oldId = InvalidId;
-    IdType newId = InvalidId;
     for (auto it = persons.begin(); it != persons.end(); ++it)
     {
-        if (it->getName() == name)
+        if (it->getId() == id)
         {
-            oldId = it->getId();
             it->update(newInfo);
-            newId = newInfo.getId();
             found = true;
+            break;
         }
     }
     if (!found)
@@ -185,5 +189,8 @@ bool DataManager::updateByName(const std::string &name, const Person<> &newInfo)
         if (p.removeContactMember(oldId))
             p.addContactMember(newId);
     }
+    std::sort(persons.begin(), persons.end(),
+              [](const Person<> &a, const Person<> &b)
+              { return a.getId() < b.getId(); });
     return true;
 }

@@ -35,8 +35,8 @@ public:
     void showDeleteSuccessMessage(const std::string &name); // 2、删除通讯录记录信息
     void showDeleteErrorMessage(const std::string &name);
 
-    void showModifySuccessMessage(const std::string &name); // 3、修改通讯录记录信息
-    void showModifyErrorMessage(const std::string &name);
+    void showModifySuccessMessage(const std::string &target); // 3、修改通讯录记录信息
+    void showModifyErrorMessage(const std::string &target);
     void showFindNoPeopleMessage(const std::string &name);
     std::string getNewInformationName(const std::string &prompt, std::string name);
 

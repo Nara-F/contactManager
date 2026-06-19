@@ -182,19 +182,20 @@ void App::handleContactModification()
     }
     while (true)
     {
-        std::string name = ui.getInputString("请输入要修改的人员姓名（输入0返回主菜单）：");
-        if (name == "0")
+        IdType id = ui.getInputId("请输入要修改的人员id（输入0返回主菜单）：");
+        if (id == "0")
         {
             return;
         }
 
-        if (!service.findContactByName(name))
+        const auto contact = service.findContactById(id);
+        if (!contact)
         {
             ui.showInvalidInput();
             continue;
         }
 
-        std::string newInfo = ui.getNewInformationName("请输入新的人员信息", name);
+        std::string newInfo = ui.getNewInformationName("请输入新的人员信息", contact->getName());
         if (newInfo.empty())
         {
             std::cout << "已取消修改。" << std::endl;
@@ -202,14 +203,14 @@ void App::handleContactModification()
             return;
         }
 
-        if (service.updateContact(name, newInfo))
+        if (service.updateContactById(id, newInfo))
         {
-            ui.showModifySuccessMessage(name);
+            ui.showModifySuccessMessage(id);
             pauseFor(3000);
             return;
         }
 
-        ui.showModifyErrorMessage(name);
+        ui.showModifyErrorMessage(id);
     }
 }
 

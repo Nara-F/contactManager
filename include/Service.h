@@ -36,7 +36,7 @@ public:
 
     bool deleteContactByName(const std::string &name); // 删
 
-    bool updateContact(const std::string &name, const std::string &newInfoStr); // 改
+    bool updateContactById(const IdType &id, const std::string &newInfoStr); // 改
 
     std::vector<std::vector<double>> buildRelationNetwork() const; // 构建关系网络
     std::vector<IdType> getSortedIdList() const;                   // 获取排序后的ID列表

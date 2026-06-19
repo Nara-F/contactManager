@@ -106,7 +106,7 @@ void UserInterface::displayMainMenu()
     std::cout << "║  1. 查看文件列表（从 contactList/ 选择并导入）         ║\n";
     std::cout << "║  2. 查询全部已录入人员信息                             ║\n";
     std::cout << "║  3. 删除已记录人员信息（按姓名删除）                   ║\n";
-    std::cout << "║  4. 修改已记录人员信息（按姓名覆盖更新）               ║\n";
+    std::cout << "║  4. 修改已记录人员信息（按 ID 覆盖更新）               ║\n";
     std::cout << "║  5. 添加特定人员的联系人信息                           ║\n";
     std::cout << "║  6. 导出特定人员的所有通讯录信息                       ║\n";
     std::cout << "║  7. 构建联系人关系网络                                 ║\n";
@@ -199,16 +199,16 @@ void UserInterface::showDeleteErrorMessage(const std::string &name)
     std::cerr << "删除联系人" << name << "的信息失败，请重新检查或重试！" << std::endl;
 }
 
-void UserInterface::showModifySuccessMessage(const std::string &name)
+void UserInterface::showModifySuccessMessage(const std::string &target)
 {
-    // TO DO: 显示修改成功的信息，包含联系人姓名 `name`
-    std::cout << "联系人" << name << "的信息已成功修改！" << std::endl;
+    // TO DO: 显示修改成功的信息，包含联系人标识 `target`
+    std::cout << "联系人" << target << "的信息已成功修改！" << std::endl;
 }
 
-void UserInterface::showModifyErrorMessage(const std::string &name)
+void UserInterface::showModifyErrorMessage(const std::string &target)
 {
-    // TO DO: 显示修改失败的信息，包含联系人姓名 `name`
-    std::cerr << "修改联系人" << name << "的信息失败，请重新检查或重试！" << std::endl;
+    // TO DO: 显示修改失败的信息，包含联系人标识 `target`
+    std::cerr << "修改联系人" << target << "的信息失败，请重新检查或重试！" << std::endl;
 }
 
 void UserInterface::showFindNoPeopleMessage(const std::string &name)
