@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-using IdType = char;
+#include "Types.h"
 
 class Service;
 

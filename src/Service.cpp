@@ -3,17 +3,63 @@
 #include "FileManager.h"
 #include "Person.h"
 
+#include <cstdlib>
+#include <filesystem>
 #include <vector>
-#include <sstream>
 #include <iostream>
 #include <algorithm>
 #include <unordered_set>
+
+namespace
+{
+std::string withTrailingSeparator(const std::filesystem::path &path)
+{
+    std::string value = path.string();
+    if (!value.empty() && value.back() != '/' && value.back() != '\\')
+    {
+        value += std::filesystem::path::preferred_separator;
+    }
+    return value;
+}
+
+std::string resolveDataDir()
+{
+    if (const char *env = std::getenv("CONTACT_DATA_DIR"))
+    {
+        if (*env != '\0')
+        {
+            return withTrailingSeparator(env);
+        }
+    }
+
+    const std::filesystem::path defaultDir = "contactList";
+    if (std::filesystem::is_directory(defaultDir))
+    {
+        return withTrailingSeparator(defaultDir);
+    }
+
+    const std::filesystem::path sourceDir = "src/contactList";
+    if (std::filesystem::is_directory(sourceDir))
+    {
+        return withTrailingSeparator(sourceDir);
+    }
+
+    return withTrailingSeparator(defaultDir);
+}
+
+std::string dataPath(const std::string &dataDir, const std::string &filename)
+{
+    return (std::filesystem::path(dataDir) / filename).string();
+}
+}
+
 Service::Service() {}
 
 Service::~Service() {}
 
 bool Service::initialize()
 {
+    dataDir = resolveDataDir();
     fileList = fileManager.getFileList(dataDir);
     currentFileName.clear();
 
@@ -38,15 +84,14 @@ std::vector<std::string> Service::getFileList() const
 
 int Service::loadFromFile(const std::string &filename)
 {
-    std::vector<Person<>> persons = fileManager.read(dataDir + filename);
+    std::vector<Person<>> persons = fileManager.read(dataPath(dataDir, filename));
     if (persons.empty())
     {
         currentFileName.clear();
         return 0;
     }
-    IdType idFile;
-    std::istringstream ss(filename);
-    if (ss >> idFile)
+    IdType idFile = std::filesystem::path(filename).stem().string();
+    if (!idFile.empty())
     {
         auto &all = dataManager.getAll();
         bool find = false;
@@ -80,9 +125,7 @@ int Service::loadFromFile(const std::string &filename)
 
 bool Service::saveToFile(const Person<> &p)
 {
-    std::string filename;
-    filename += p.getId();
-    filename += ".txt";
+    std::string filename = p.getId() + ".txt";
 
     std::vector<IdType> contactList = p.getContactMember();
     std::vector<Person<>> allList;
@@ -94,7 +137,7 @@ bool Service::saveToFile(const Person<> &p)
             allList.push_back(*contact);
         }
     }
-    bool result = fileManager.write(dataDir + filename, allList);
+    bool result = fileManager.write(dataPath(dataDir, filename), allList);
     if (result)
     {
         fileList = fileManager.getFileList(dataDir);
@@ -135,7 +178,7 @@ const Person<> *Service::findContactById(const IdType &id) const
     return dataManager.findById(id);
 }
 
-bool Service::addContact(const std::string &infoStr, IdType addingId) // 增
+bool Service::addContact(const std::string &infoStr, const IdType &addingId) // 增
 {
     Person<> *owner = nullptr;
     for (auto &person : dataManager.getAll())

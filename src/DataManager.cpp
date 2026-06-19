@@ -69,7 +69,7 @@ const Person<> *DataManager::findById(const IdType &id) const
     return nullptr;
 }
 
-bool DataManager::existsId(IdType id) const
+bool DataManager::existsId(const IdType &id) const
 {
     for (const auto &p : persons)
     {
@@ -92,7 +92,7 @@ bool DataManager::add(const Person<> &p)
     return true;
 }
 
-bool DataManager::addById(IdType id)
+bool DataManager::addById(const IdType &id)
 {
     if (existsId(id))
     {

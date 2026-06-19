@@ -75,22 +75,20 @@ std::string UserInterface::getInputString(const std::string &prompt)
 
 IdType UserInterface::getInputId(const std::string &prompt)
 {
-    // TO DO: 显示提示信息 `prompt` 并读取一个字符作为 ID，返回该字符
+    // TO DO: 显示提示信息 `prompt` 并读取 ID，返回该字符串
     std::string line;
-    IdType id;
     if (std::cin.eof())
     {
-        return '\0';
+        return InvalidId;
     }
     while (true)
     {
         std::cout << prompt;
         std::getline(std::cin, line);
-        std::stringstream ss(line);
 
-        if (ss >> id)
+        if (!line.empty())
         {
-            return id;
+            return line;
         }
         else
         {
@@ -305,7 +303,7 @@ std::string UserInterface::getNewInformationName(const std::string &prompt, std:
     std::cout << prompt << "（输入0取消）" << std::endl;
 
     std::string idStr;
-    IdType id = '\0';
+    IdType id = InvalidId;
     std::string gender;
     std::string age;
     std::string telephone;
@@ -321,7 +319,7 @@ std::string UserInterface::getNewInformationName(const std::string &prompt, std:
     }
     if (!idStr.empty())
     {
-        id = idStr[0];
+        id = idStr;
     }
 
     while (!std::cin.eof())
@@ -388,7 +386,7 @@ std::string UserInterface::getNewInformationName(const std::string &prompt, std:
 
     // 按约定顺序拼接：id|name|gender|age|telephone|city|school|address（使用|分隔）
     std::string retStr;
-    retStr += id;
+    retStr = id;
     retStr = retStr + "|" + name + "|" + gender + "|" + age + "|" +
              telephone + "|" + city + "|" + school + "|" + address;
     return retStr;
@@ -478,7 +476,7 @@ std::string UserInterface::getNewInformationId(const std::string &prompt, IdType
         address = "未填写";
 
     std::string retStr;
-    retStr += id;
+    retStr = id;
     retStr = retStr + "|" + name + "|" + gender + "|" + age + "|" +
              telephone + "|" + city + "|" + school + "|" + address;
     return retStr;

@@ -29,7 +29,7 @@ public:
     std::vector<std::string> getAllContacts() const; // 查
     const Person<> *findContactByName(const std::string &name) const;
     const Person<> *findContactById(const IdType &id) const;
-    bool addContact(const std::string &infoStr, IdType addingId); // 增
+    bool addContact(const std::string &infoStr, const IdType &addingId); // 增
     std::vector<std::string> getCertainContact(const IdType &id) const;
 
     bool deleteContactByName(const std::string &name); // 删

@@ -23,11 +23,15 @@ ContactManager/
    ├── DataManager.cpp/h  # 数据管理层
    ├── FileManager.cpp/h  # 文件读写管理
    ├── UserInterface.cpp/h # 用户界面交互
-   ├── Person.h/tpp       # 联系人模板类
+   ├── Person.h           # 联系人模板类声明
    ├── contactList/       # 联系人数据文件目录
        ├── a.txt
        ├── b.txt
        └── ...
+├──include/
+   ├── Types.h            # 共享 ID 类型定义
+   ├── Person.h
+   └── detail/Person.tpp  # 联系人模板类实现
 ```
 
 ## 数据格式
@@ -49,14 +53,20 @@ a|张三|男|20|13800000001|北京|北京大学|北京市海淀区
 ### 编译
 
 ```bash
-cd src
-g++ -std=c++17 -o contactManager.exe main.cpp App.cpp Service.cpp DataManager.cpp FileManager.cpp UserInterface.cpp Person.tpp
+cmake -S . -B build
+cmake --build build
 ```
 
 ### 运行
 
 ```bash
-./contactManager.exe
+./build/ContactManager
+```
+
+程序默认查找 `contactList/`，找不到时会回退到 `src/contactList/`。也可以通过环境变量指定数据目录：
+
+```bash
+CONTACT_DATA_DIR=/path/to/contactList ./build/ContactManager
 ```
 
 ## 使用说明
@@ -113,12 +123,13 @@ g++ -std=c++17 -o contactManager.exe main.cpp App.cpp Service.cpp DataManager.cp
 | :------------------------------- | :---------------------------------------- |
 | **模板类 `Person<>`**            | 联系人数据结构，支持泛型 ID 类型          |
 | **STL 容器**                     | `std::vector`、`std::list` 存储联系人集合 |
+| **文件系统 `std::filesystem`**   | 跨平台目录遍历和路径处理                  |
 | **字符串流 `std::stringstream`** | 数据解析与格式化                          |
 | **文件流 `std::fstream`**        | 文件读写操作                              |
 
 ### 数据结构
 
-- **`std::list<Person<>>`**：主数据容器，支持高效插入删除
+- **`std::vector<Person<>>`**：主数据容器，支持排序和遍历
 - **`std::vector<IdType>`**：联系人关系列表
 - **`std::vector<std::vector<double>>`**：关系网络邻接矩阵
 
@@ -129,11 +140,11 @@ g++ -std=c++17 -o contactManager.exe main.cpp App.cpp Service.cpp DataManager.cp
 - 输入验证：性别、年龄等字段的合法性检查
 - 空输入处理：自动填充默认值 "未填写"
 
-### 平台相关
+### 跨平台处理
 
-- **Windows API**：`FindFirstFileA`/`FindNextFileA` 遍历目录文件
-- **控制台编码**：`SetConsoleOutputCP(CP_UTF8)` 支持中文显示
-- **`Sleep()`**：操作反馈延时
+- **目录遍历**：使用 `std::filesystem`，不依赖 Windows API
+- **控制台编码**：仅在 Windows 下设置 UTF-8 控制台编码
+- **延时反馈**：使用 `std::this_thread::sleep_for`
 
 ### 设计模式
 
@@ -142,6 +153,6 @@ g++ -std=c++17 -o contactManager.exe main.cpp App.cpp Service.cpp DataManager.cp
 
 ## 注意事项
 
-1. 确保 `contactList/` 目录存在且包含有效的联系人文件
+1. 确保 `contactList/`、`src/contactList/` 或 `CONTACT_DATA_DIR` 指向的目录存在且包含有效的联系人文件
 2. 文件编码需为 UTF-8
-3. 程序在 Windows 环境下编译运行
+3. 程序支持 C++17 编译器下的 Windows/Linux/macOS 构建

@@ -22,11 +22,11 @@ public:
 
     const Person<> *findById(const IdType &id) const; // 按id查找
 
-    bool existsId(IdType id) const;
+    bool existsId(const IdType &id) const;
 
     // 增删改
     bool add(const Person<> &p); // 尾插人员
-    bool addById(IdType id);     // 尾插仅出现id的人员
+    bool addById(const IdType &id); // 尾插仅出现id的人员
     bool removeByName(const std::string &name);
     bool updateByName(const std::string &name, const Person<> &newInfo);
 

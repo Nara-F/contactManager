@@ -121,7 +121,7 @@ void App::handleContactSearch()
         else
         {
             IdType id = ui.getInputId("请输入要查询的人员id（输入0返回主菜单）：");
-            if (id == '0')
+            if (id == "0")
             {
                 return;
             }
@@ -218,7 +218,7 @@ void App::handleContactAddition() // 可以拓展加上同id信息覆盖的选�
         return;
     }
     IdType addingId = ui.getInputId("请输入要添加新联系人的人员id（输入0返回主菜单）：");
-    if (addingId == '0')
+    if (addingId == "0")
     {
         return;
     }
@@ -226,7 +226,7 @@ void App::handleContactAddition() // 可以拓展加上同id信息覆盖的选�
     while (true)
     {
         id = ui.getInputId("请输入要添加的新联系人id（输入0返回主菜单）：");
-        if (id == '0')
+        if (id == "0")
         {
             return;
         }
@@ -279,7 +279,7 @@ void App::handleDataSaving()
             return;
         }
         IdType id = ui.getInputId("请输入要保存的联系人id（输入0返回主菜单）：");
-        if (id == '0')
+        if (id == "0")
             return;
         int choice = 0;
         ui.displayCertainContact(service.getCertainContact(id));
@@ -304,9 +304,7 @@ void App::handleDataSaving()
 
         if (service.saveToFile(*contact))
         {
-            std::string filename;
-            filename += id;
-            filename += ".txt";
+            std::string filename = id + ".txt";
             ui.showSavingSuccessMessage(filename);
             pauseFor(3000);
             return;

@@ -136,6 +136,10 @@ template <typename Tid>
 void Person<Tid>::addContactMember(Tid id)
 {
     auto it = std::lower_bound(contactMember.begin(), contactMember.end(), id);
+    if (it != contactMember.end() && *it == id)
+    {
+        return;
+    }
     contactMember.insert(it, id);
 }
 
@@ -235,9 +239,7 @@ Person<Tid> Person<Tid>::fromString(const std::string &line)
         return Person(InvalidId, "", Person::Gender::Female, 0, "00000000000", "", "", "");
     }
 
-    Tid id;
-    std::istringstream ssId(fields[0]);
-    ssId >> id;
+    Tid id = fields[0];
 
     std::string name = fields[1];
     Gender gender = (fields[2] == "男") ? Gender::Male : Gender::Female;

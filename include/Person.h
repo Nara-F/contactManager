@@ -4,9 +4,7 @@
 #include <string>
 #include <vector>
 
-using IdType = char;
-
-static const IdType InvalidId = IdType{};
+#include "Types.h"
 
 template <typename Tid = IdType>
 class Person
@@ -71,4 +69,4 @@ private:
     std::vector<Tid> contactMember; // 按id存储联系人列表
 };
 
-#include "Person.tpp"
+#include "detail/Person.tpp"
