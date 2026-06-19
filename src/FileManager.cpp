@@ -1,7 +1,8 @@
 #include "FileManager.h"
 #include "Person.h"
 
-#include <windows.h>
+#include <algorithm>
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 
@@ -12,29 +13,27 @@ FileManager::~FileManager() {}
 std::vector<std::string> FileManager::getFileList(const std::string &directory) const
 {
     std::vector<std::string> list;
-    std::string searchPath = directory;
-    if (searchPath.empty())
-        searchPath = ".";
-    // Ensure trailing backslash
-    if (searchPath.back() != '\\' && searchPath.back() != '/')
-        searchPath += "\\";
-    searchPath += "*";
 
-    WIN32_FIND_DATAA findData;
-    HANDLE hFind = FindFirstFileA(searchPath.c_str(), &findData);
-    if (hFind == INVALID_HANDLE_VALUE)
-        return list;
-
-    do
+    const std::filesystem::path dirPath = directory.empty() ? "." : directory;
+    std::error_code ec;
+    if (!std::filesystem::exists(dirPath, ec) || !std::filesystem::is_directory(dirPath, ec))
     {
-        const char *name = findData.cFileName;
-        if (strcmp(name, ".") == 0 || strcmp(name, "..") == 0)
-            continue;
-        if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-            list.emplace_back(name);
-    } while (FindNextFileA(hFind, &findData));
+        return list;
+    }
 
-    FindClose(hFind);
+    for (const auto &entry : std::filesystem::directory_iterator(dirPath, ec))
+    {
+        if (ec)
+        {
+            break;
+        }
+        if (entry.is_regular_file(ec))
+        {
+            list.emplace_back(entry.path().filename().string());
+        }
+    }
+
+    std::sort(list.begin(), list.end());
     return list;
 }
 
@@ -81,5 +80,3 @@ bool FileManager::write(const std::string &fileName, const std::vector<Person<>>
 
     return true;
 }
-
-// ai编写
