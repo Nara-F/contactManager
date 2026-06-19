@@ -2,12 +2,15 @@
 #include "DataManager.h"
 #include "FileManager.h"
 #include "Person.h"
+#include "repository/SqliteContactRepository.h"
 
 #include <cstdlib>
 #include <filesystem>
+#include <memory>
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <functional>
 #include <unordered_set>
 
 namespace
@@ -51,6 +54,52 @@ std::string dataPath(const std::string &dataDir, const std::string &filename)
 {
     return (std::filesystem::path(dataDir) / filename).string();
 }
+
+std::string resolveDbPath()
+{
+    if (const char *env = std::getenv("CONTACT_DB_PATH"))
+    {
+        if (*env != '\0')
+        {
+            return env;
+        }
+    }
+    return "contacts.db";
+}
+
+bool runTransaction(ContactRepository &repository, const std::function<bool()> &work)
+{
+    if (!repository.beginTransaction())
+    {
+        return false;
+    }
+
+    if (!work())
+    {
+        repository.rollbackTransaction();
+        return false;
+    }
+
+    if (!repository.commitTransaction())
+    {
+        repository.rollbackTransaction();
+        return false;
+    }
+
+    return true;
+}
+
+Person<> *findMutableById(DataManager &dataManager, const IdType &id)
+{
+    for (auto &person : dataManager.getAll())
+    {
+        if (person.getId() == id)
+        {
+            return &person;
+        }
+    }
+    return nullptr;
+}
 }
 
 Service::Service() {}
@@ -64,6 +113,15 @@ bool Service::initialize()
     currentFileName.clear();
 
     std::cout << dataDir << std::endl;
+    repository = std::make_unique<SqliteContactRepository>(resolveDbPath());
+    if (!repository->initialize())
+    {
+        return false;
+    }
+
+    dataManager.clear();
+    dataManager.load(repository->loadPersons());
+    dataManager.loadRelationships(repository->loadRelationships());
     return true;
 }
 
@@ -85,40 +143,70 @@ std::vector<std::string> Service::getFileList() const
 int Service::loadFromFile(const std::string &filename)
 {
     std::vector<Person<>> persons = fileManager.read(dataPath(dataDir, filename));
-    if (persons.empty())
+    if (persons.empty() || !repository)
     {
         currentFileName.clear();
         return 0;
     }
     IdType idFile = std::filesystem::path(filename).stem().string();
-    if (!idFile.empty())
-    {
-        auto &all = dataManager.getAll();
-        bool find = false;
-        for (auto &p : all)
+
+    const bool ownerExists = dataManager.existsId(idFile);
+    const bool ownerInFile = std::any_of(persons.begin(), persons.end(),
+                                         [&](const Person<> &person)
+                                         { return person.getId() == idFile; });
+
+    const bool persisted = runTransaction(*repository, [&]() {
+        for (const auto &person : persons)
         {
-            if (p.getId() == idFile)
+            if (!repository->upsertPerson(person))
             {
-                find = true;
-                for (auto &newContact : persons)
+                return false;
+            }
+        }
+
+        if (!idFile.empty())
+        {
+            if (!ownerExists && !ownerInFile && !repository->upsertPerson(Person<>(idFile)))
+            {
+                return false;
+            }
+
+            for (const auto &newContact : persons)
+            {
+                if (!repository->upsertRelationship(idFile, newContact.getId()))
                 {
-                    p.addContactMember(newContact.getId());
+                    return false;
                 }
             }
         }
-        if (!find)
+
+        return true;
+    });
+
+    if (!persisted)
+    {
+        currentFileName.clear();
+        return 0;
+    }
+
+    dataManager.load(persons);
+    if (!idFile.empty())
+    {
+        Person<> *owner = findMutableById(dataManager, idFile);
+        if (!owner)
         {
-            Person<> newPerson(idFile);
+            dataManager.addById(idFile);
+            owner = findMutableById(dataManager, idFile);
+        }
+        if (owner)
+        {
             for (auto &newContact : persons)
             {
-                newPerson.addContactMember(newContact.getId());
+                owner->addContactMember(newContact.getId());
             }
-            all.push_back(newPerson);
         }
     }
 
-    std::vector<Person<>> vec(persons.begin(), persons.end());
-    dataManager.load(vec);
     currentFileName = filename;
     return 1;
 }
@@ -180,15 +268,7 @@ const Person<> *Service::findContactById(const IdType &id) const
 
 bool Service::addContact(const std::string &infoStr, const IdType &addingId) // 增
 {
-    Person<> *owner = nullptr;
-    for (auto &person : dataManager.getAll())
-    {
-        if (person.getId() == addingId)
-        {
-            owner = &person;
-        }
-    }
-    if (!owner)
+    if (!repository || !dataManager.existsId(addingId))
     {
         return false;
     }
@@ -201,25 +281,35 @@ bool Service::addContact(const std::string &infoStr, const IdType &addingId) // 
     }
 
     const IdType newId = newP.getId();
+    if (newId == addingId)
+    {
+        return false;
+    }
 
-    if (!dataManager.existsId(newId))
+    const bool persisted = runTransaction(*repository, [&]() {
+        return repository->upsertPerson(newP) &&
+               repository->upsertRelationship(addingId, newId);
+    });
+    if (!persisted)
+    {
+        return false;
+    }
+
+    Person<> *newContact = findMutableById(dataManager, newId);
+    if (!newContact)
     {
         dataManager.add(newP);
     }
     else
     {
-        auto &all = dataManager.getAll();
-        for (auto &person : all)
-        {
-            if (person.getId() == newId)
-            {
-                person.update(newP);
-                break;
-            }
-        }
+        newContact->update(newP);
     }
 
-    owner->addContactMember(newId);
+    Person<> *owner = findMutableById(dataManager, addingId);
+    if (owner)
+    {
+        owner->addContactMember(newId);
+    }
     return true;
 }
 
@@ -230,15 +320,83 @@ const Person<> *Service::findContactByName(const std::string &name) const
 
 bool Service::deleteContactByName(const std::string &name)
 {
-    bool ok = dataManager.removeByName(name);
-    return ok;
+    if (!repository)
+    {
+        return false;
+    }
+
+    std::vector<IdType> idsToDelete;
+    for (const auto &person : dataManager.getAll())
+    {
+        if (person.getName() == name)
+        {
+            idsToDelete.push_back(person.getId());
+        }
+    }
+    if (idsToDelete.empty())
+    {
+        return false;
+    }
+
+    const bool persisted = runTransaction(*repository, [&]() {
+        for (const auto &id : idsToDelete)
+        {
+            if (!repository->deletePerson(id))
+            {
+                return false;
+            }
+        }
+        return true;
+    });
+    if (!persisted)
+    {
+        return false;
+    }
+
+    return dataManager.removeByName(name);
 }
 
 bool Service::updateContact(const std::string &name, const std::string &newInfoStr)
 {
+    if (!repository)
+    {
+        return false;
+    }
+
+    std::vector<IdType> matchingIds;
+    for (const auto &person : dataManager.getAll())
+    {
+        if (person.getName() == name)
+        {
+            matchingIds.push_back(person.getId());
+        }
+    }
+    if (matchingIds.size() != 1)
+    {
+        return false;
+    }
+
     Person<> p = parseContactInfo(newInfoStr);
-    bool ok = dataManager.updateByName(name, p);
-    return ok;
+    if (p.getId() == InvalidId)
+    {
+        return false;
+    }
+
+    const IdType oldId = matchingIds.front();
+    if (p.getId() != oldId && dataManager.existsId(p.getId()))
+    {
+        return false;
+    }
+
+    const bool persisted = runTransaction(*repository, [&]() {
+        return repository->replacePerson(oldId, p);
+    });
+    if (!persisted)
+    {
+        return false;
+    }
+
+    return dataManager.updateByName(name, p);
 }
 
 std::vector<std::vector<double>> Service::buildRelationNetwork() const

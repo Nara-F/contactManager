@@ -1,5 +1,8 @@
 # Local assistant settings
 .claude/
+status.md
+contacts.db
+contacts.db-*
 
 # IDE settings
 .idea/

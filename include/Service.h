@@ -3,10 +3,12 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "FileManager.h"
 #include "DataManager.h"
 #include "Person.h"
+#include "repository/ContactRepository.h"
 
 class DataManager;
 class FileManager;
@@ -42,6 +44,7 @@ public:
 private:
     DataManager dataManager;
     FileManager fileManager;
+    std::unique_ptr<ContactRepository> repository;
 
     // 状态
     std::vector<std::string> fileList;

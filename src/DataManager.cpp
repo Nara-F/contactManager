@@ -35,6 +35,30 @@ void DataManager::load(const std::vector<Person<>> &persons)
               { return a.getId() < b.getId(); });
 }
 
+void DataManager::loadRelationships(const std::vector<std::pair<IdType, IdType>> &relationships)
+{
+    for (const auto &[ownerId, contactId] : relationships)
+    {
+        if (!existsId(ownerId))
+        {
+            addById(ownerId);
+        }
+        if (!existsId(contactId))
+        {
+            addById(contactId);
+        }
+
+        for (auto &person : persons)
+        {
+            if (person.getId() == ownerId)
+            {
+                person.addContactMember(contactId);
+                break;
+            }
+        }
+    }
+}
+
 std::vector<Person<>> &DataManager::getAll()
 {
     return persons;
@@ -109,12 +133,12 @@ bool DataManager::addById(const IdType &id)
 bool DataManager::removeByName(const std::string &name)
 {
     bool found = false;
-    IdType id = InvalidId;
+    std::vector<IdType> removedIds;
     for (auto it = persons.begin(); it != persons.end();)
     {
         if (it->getName() == name)
         {
-            id = it->getId();
+            removedIds.push_back(it->getId());
             found = true;
             it = persons.erase(it);
         }
@@ -129,7 +153,10 @@ bool DataManager::removeByName(const std::string &name)
     }
     for (auto &p : persons)
     {
-        p.removeContactMember(id);
+        for (const auto &id : removedIds)
+        {
+            p.removeContactMember(id);
+        }
     }
     return true;
 }
@@ -144,8 +171,8 @@ bool DataManager::updateByName(const std::string &name, const Person<> &newInfo)
         if (it->getName() == name)
         {
             oldId = it->getId();
-            *it = newInfo;
-            newId = it->getId();
+            it->update(newInfo);
+            newId = newInfo.getId();
             found = true;
         }
     }

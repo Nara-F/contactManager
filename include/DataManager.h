@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <utility>
 
 #include "Person.h"
 
@@ -14,6 +15,7 @@ public:
 
     void clear();
     void load(const std::vector<Person<>> &persons);
+    void loadRelationships(const std::vector<std::pair<IdType, IdType>> &relationships);
 
     std::vector<Person<>> &getAll();             // 可写访问
     const std::vector<Person<>> &getAll() const; // 只读访问

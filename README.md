@@ -1,10 +1,11 @@
 # ContactManager 联系人管理系统
 
-一个基于 C++ 的命令行联系人管理系统，支持联系人的增删改查、文件存储和关系网络构建。
+一个基于 C++ 的命令行联系人管理系统，支持联系人的增删改查、SQLite 持久化、文件导入导出和关系网络构建。
 
 ## 功能特性
 
-- **文件管理**：从 `contactList/` 目录加载联系人文件
+- **文件管理**：从 `contactList/` 目录导入联系人文件，并可导出联系人通讯录
+- **SQL 持久化**：使用 SQLite 保存联系人和联系人关系
 - **查询功能**：查看所有联系人或查询特定联系人详情
 - **添加联系人**：为已有人员添加新的联系人
 - **修改信息**：按姓名修改联系人信息
@@ -21,7 +22,7 @@ ContactManager/
    ├── App.cpp/h          # 应用主控制器
    ├── Service.cpp/h      # 业务逻辑层
    ├── DataManager.cpp/h  # 数据管理层
-   ├── FileManager.cpp/h  # 文件读写管理
+   ├── FileManager.cpp/h  # 文件导入/导出管理
    ├── UserInterface.cpp/h # 用户界面交互
    ├── Person.h           # 联系人模板类声明
    ├── contactList/       # 联系人数据文件目录
@@ -31,6 +32,7 @@ ContactManager/
 ├──include/
    ├── Types.h            # 共享 ID 类型定义
    ├── Person.h
+   ├── repository/        # 持久化仓储接口和 SQLite 实现声明
    └── detail/Person.tpp  # 联系人模板类实现
 ```
 
@@ -57,6 +59,8 @@ cmake -S . -B build
 cmake --build build
 ```
 
+构建需要 C++17 编译器和 SQLite3 开发库。
+
 ### 运行
 
 ```bash
@@ -69,6 +73,12 @@ cmake --build build
 CONTACT_DATA_DIR=/path/to/contactList ./build/ContactManager
 ```
 
+程序默认使用当前工作目录下的 `contacts.db` 作为 SQLite 数据库。也可以通过环境变量指定数据库路径：
+
+```bash
+CONTACT_DB_PATH=/path/to/contacts.db ./build/ContactManager
+```
+
 ## 使用说明
 
 ### 主菜单
@@ -76,12 +86,12 @@ CONTACT_DATA_DIR=/path/to/contactList ./build/ContactManager
 ```
              联系人管理系统 ContactManager
 
-  1. 查看文件列表（从 contactList/ 选择并加载）
+  1. 查看文件列表（从 contactList/ 选择并导入）
   2. 查询全部已录入人员信息
   3. 删除已记录人员信息（按姓名删除）
   4. 修改已记录人员信息（按姓名覆盖更新）
   5. 添加特定人员的联系人信息
-  6. 保存特定人员的所有通讯录信息
+  6. 导出特定人员的所有通讯录信息
   7. 构建联系人关系网络
   0. 退出程序
 ```
@@ -113,7 +123,9 @@ CONTACT_DATA_DIR=/path/to/contactList ./build/ContactManager
 ├─────────────────────────────────────┤
 │         DataManager (数据层)         │  内存数据管理、CRUD操作
 ├─────────────────────────────────────┤
-│         FileManager (持久层)         │  文件读写、目录遍历
+│     ContactRepository (持久层)       │  SQLite 数据持久化
+├─────────────────────────────────────┤
+│         FileManager (文件适配)       │  文件导入导出、目录遍历
 └─────────────────────────────────────┘
 ```
 
@@ -122,8 +134,9 @@ CONTACT_DATA_DIR=/path/to/contactList ./build/ContactManager
 | 技术                             | 应用场景                                  |
 | :------------------------------- | :---------------------------------------- |
 | **模板类 `Person<>`**            | 联系人数据结构，支持泛型 ID 类型          |
-| **STL 容器**                     | `std::vector`、`std::list` 存储联系人集合 |
+| **STL 容器**                     | `std::vector` 存储联系人集合              |
 | **文件系统 `std::filesystem`**   | 跨平台目录遍历和路径处理                  |
+| **SQLite3**                      | 联系人和关系数据持久化                    |
 | **字符串流 `std::stringstream`** | 数据解析与格式化                          |
 | **文件流 `std::fstream`**        | 文件读写操作                              |
 
@@ -132,6 +145,8 @@ CONTACT_DATA_DIR=/path/to/contactList ./build/ContactManager
 - **`std::vector<Person<>>`**：主数据容器，支持排序和遍历
 - **`std::vector<IdType>`**：联系人关系列表
 - **`std::vector<std::vector<double>>`**：关系网络邻接矩阵
+- **`persons` 表**：保存联系人详情
+- **`relationships` 表**：保存联系人有向关系
 
 ### 输入处理
 
@@ -153,6 +168,7 @@ CONTACT_DATA_DIR=/path/to/contactList ./build/ContactManager
 
 ## 注意事项
 
-1. 确保 `contactList/`、`src/contactList/` 或 `CONTACT_DATA_DIR` 指向的目录存在且包含有效的联系人文件
-2. 文件编码需为 UTF-8
-3. 程序支持 C++17 编译器下的 Windows/Linux/macOS 构建
+1. 确保系统安装 SQLite3 开发库
+2. 确保 `contactList/`、`src/contactList/` 或 `CONTACT_DATA_DIR` 指向的目录存在且包含有效的联系人文件
+3. 文件编码需为 UTF-8
+4. 程序支持 C++17 编译器下的 Windows/Linux/macOS 构建

@@ -103,12 +103,12 @@ void UserInterface::displayMainMenu()
     std::cout << "╔════════════════════════════════════════════════════════╗\n";
     std::cout << "║               联系人管理系统 ContactManager            ║\n";
     std::cout << "╠════════════════════════════════════════════════════════╣\n";
-    std::cout << "║  1. 查看文件列表（从 contactList/ 选择并加载）         ║\n";
+    std::cout << "║  1. 查看文件列表（从 contactList/ 选择并导入）         ║\n";
     std::cout << "║  2. 查询全部已录入人员信息                             ║\n";
     std::cout << "║  3. 删除已记录人员信息（按姓名删除）                   ║\n";
     std::cout << "║  4. 修改已记录人员信息（按姓名覆盖更新）               ║\n";
     std::cout << "║  5. 添加特定人员的联系人信息                           ║\n";
-    std::cout << "║  6. 保存特定人员的所有通讯录信息                       ║\n";
+    std::cout << "║  6. 导出特定人员的所有通讯录信息                       ║\n";
     std::cout << "║  7. 构建联系人关系网络                                 ║\n";
     std::cout << "║  0. 退出程序                                           ║\n";
     std::cout << "╚════════════════════════════════════════════════════════╝\n";
@@ -133,7 +133,7 @@ void UserInterface::displayExitMessage()
 void UserInterface::displayFileList(const std::vector<std::string> &fileList)
 {
     // TO DO: 列出可用的文件名列表（`fileList`），并按序号或换行显示
-    std::cout << "可用文件列表（输入序号选择，0 返回主菜单）：" << std::endl;
+    std::cout << "可导入文件列表（输入序号选择，0 返回主菜单）：" << std::endl;
     for (size_t i = 0; i < fileList.size(); ++i)
     {
         std::cout << i + 1 << ". " << fileList[i] << std::endl;
@@ -143,19 +143,19 @@ void UserInterface::displayFileList(const std::vector<std::string> &fileList)
 void UserInterface::showFileReadSuccessMessage()
 {
     // TO DO: 显示文件读取成功的提示
-    std::cout << "文件读取成功！" << std::endl;
+    std::cout << "文件导入成功！" << std::endl;
 }
 
 void UserInterface::showFileReadErrorMessage()
 {
     // TO DO: 显示文件读取失败的错误提示
-    std::cerr << "文件读取失败！请检查文件路径和格式。" << std::endl;
+    std::cerr << "文件导入失败！请检查文件路径和格式。" << std::endl;
 }
 
 void UserInterface::showNoFileMessage()
 {
     // TO DO: 提示尚未加载任何文件
-    std::cerr << "尚未读入文件！请先选择并加载文件。" << std::endl;
+    std::cerr << "尚未读入数据！请先导入文件或确认数据库中已有数据。" << std::endl;
 }
 
 bool UserInterface::displayAllContacts(const std::vector<std::string> &printList)

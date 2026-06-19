@@ -33,7 +33,11 @@ App::~App() {}
 void App::run()
 {
     configureConsoleEncoding();
-    service.initialize();
+    if (!service.initialize())
+    {
+        std::cerr << "初始化失败：无法打开或初始化联系人数据库。" << std::endl;
+        return;
+    }
     bool running = true;
     while (running)
     {
