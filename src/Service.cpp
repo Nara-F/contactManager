@@ -356,6 +356,24 @@ bool Service::deleteContactByName(const std::string &name)
     return dataManager.removeByName(name);
 }
 
+bool Service::deleteContactById(const IdType &id)
+{
+    if (!repository || id == InvalidId || !dataManager.existsId(id))
+    {
+        return false;
+    }
+
+    const bool persisted = runTransaction(*repository, [&]() {
+        return repository->deletePerson(id);
+    });
+    if (!persisted)
+    {
+        return false;
+    }
+
+    return dataManager.removeById(id);
+}
+
 bool Service::updateContactById(const IdType &id, const std::string &newInfoStr)
 {
     if (!repository)

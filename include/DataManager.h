@@ -30,6 +30,7 @@ public:
     bool add(const Person<> &p); // 尾插人员
     bool addById(const IdType &id); // 尾插仅出现id的人员
     bool removeByName(const std::string &name);
+    bool removeById(const IdType &id);
     bool updateById(const IdType &id, const Person<> &newInfo);
 
 private:

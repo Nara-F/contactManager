@@ -154,20 +154,20 @@ void App::handleContactDeletion() // Beta*
     }
     while (true)
     {
-        std::string name = ui.getInputString("请输入要删除的联系人姓名（输入0返回主菜单）：");
-        if (name == "0")
+        IdType id = ui.getInputId("请输入要删除的联系人 ID（输入0返回主菜单）：");
+        if (id == "0" || id == InvalidId)
         {
             return;
         }
 
-        if (service.deleteContactByName(name))
+        if (service.deleteContactById(id))
         {
-            ui.showDeleteSuccessMessage(name);
+            ui.showDeleteSuccessMessage(id);
             pauseFor(3000);
             return;
         }
 
-        ui.showDeleteErrorMessage(name);
+        ui.showDeleteErrorMessage(id);
         pauseFor(2000);
     }
 }

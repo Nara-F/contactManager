@@ -161,6 +161,29 @@ bool DataManager::removeByName(const std::string &name)
     return true;
 }
 
+bool DataManager::removeById(const IdType &id)
+{
+    if (id == InvalidId)
+    {
+        return false;
+    }
+
+    auto it = std::find_if(persons.begin(), persons.end(),
+                           [&](const Person<> &person)
+                           { return person.getId() == id; });
+    if (it == persons.end())
+    {
+        return false;
+    }
+
+    persons.erase(it);
+    for (auto &person : persons)
+    {
+        person.removeContactMember(id);
+    }
+    return true;
+}
+
 bool DataManager::updateById(const IdType &id, const Person<> &newInfo)
 {
     if (id == InvalidId || newInfo.getId() == InvalidId)

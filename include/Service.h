@@ -35,6 +35,7 @@ public:
     std::vector<std::string> getCertainContact(const IdType &id) const;
 
     bool deleteContactByName(const std::string &name); // 删
+    bool deleteContactById(const IdType &id);
 
     bool updateContactById(const IdType &id, const std::string &newInfoStr); // 改
 

@@ -105,7 +105,7 @@ void UserInterface::displayMainMenu()
     std::cout << "╠════════════════════════════════════════════════════════╣\n";
     std::cout << "║  1. 查看文件列表（从 contactList/ 选择并导入）         ║\n";
     std::cout << "║  2. 查询全部已录入人员信息                             ║\n";
-    std::cout << "║  3. 删除已记录人员信息（按姓名删除）                   ║\n";
+    std::cout << "║  3. 删除已记录人员信息（按 ID 删除）                   ║\n";
     std::cout << "║  4. 修改已记录人员信息（按 ID 覆盖更新）               ║\n";
     std::cout << "║  5. 添加特定人员的联系人信息                           ║\n";
     std::cout << "║  6. 导出特定人员的所有通讯录信息                       ║\n";
@@ -189,14 +189,14 @@ void UserInterface::displayCertainContact(const std::vector<std::string> &printL
 
 void UserInterface::showDeleteSuccessMessage(const std::string &name)
 {
-    // TO DO: 显示删除成功的信息，包含被删除联系人姓名 `name`
-    std::cout << "联系人" << name << "的信息已成功删除！" << std::endl;
+    // TO DO: 显示删除成功的信息，包含被删除联系人标识
+    std::cout << "联系人 " << name << " 的信息已成功删除！" << std::endl;
 }
 
 void UserInterface::showDeleteErrorMessage(const std::string &name)
 {
-    // TO DO: 显示删除失败的信息，包含联系人姓名 `name`，并给出可能原因
-    std::cerr << "删除联系人" << name << "的信息失败，请重新检查或重试！" << std::endl;
+    // TO DO: 显示删除失败的信息，包含联系人标识，并给出可能原因
+    std::cerr << "删除联系人 " << name << " 的信息失败，请重新检查或重试！" << std::endl;
 }
 
 void UserInterface::showModifySuccessMessage(const std::string &target)
