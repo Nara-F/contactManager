@@ -16,12 +16,11 @@ int UserInterface::getChoice()
     while (true)
     {
         std::cout << "请输入选项（输入0以返回主菜单）: ";
-        std::getline(std::cin, line);
-        std::stringstream ss(line);
-        if (std::cin.eof())
+        if (!std::getline(std::cin, line))
         {
-            return EOF;
+            return 0;
         }
+        std::stringstream ss(line);
         if (ss >> number)
         {
             // 成功读到第一个整数
@@ -44,12 +43,11 @@ int UserInterface::getChoice(std::string prompt)
     while (true)
     {
         std::cout << "请输入选项: ";
-        std::getline(std::cin, line);
-        std::stringstream ss(line);
-        if (std::cin.eof())
+        if (!std::getline(std::cin, line))
         {
-            return EOF;
+            return 0;
         }
+        std::stringstream ss(line);
         if ((ss >> number) && (number == 0 || number == 1))
         {
             // 成功读到第一个整数
@@ -69,7 +67,10 @@ std::string UserInterface::getInputString(const std::string &prompt)
     // TO DO: 显示提示信息 `prompt` 并从标准输入读取一行文本，返回该字符串
     std::cout << prompt << std::endl;
     std::string input;
-    std::getline(std::cin, input);
+    if (!std::getline(std::cin, input))
+    {
+        return "0";
+    }
     return input;
 }
 
@@ -77,14 +78,13 @@ IdType UserInterface::getInputId(const std::string &prompt)
 {
     // TO DO: 显示提示信息 `prompt` 并读取 ID，返回该字符串
     std::string line;
-    if (std::cin.eof())
-    {
-        return InvalidId;
-    }
     while (true)
     {
         std::cout << prompt;
-        std::getline(std::cin, line);
+        if (!std::getline(std::cin, line))
+        {
+            return InvalidId;
+        }
 
         if (!line.empty())
         {
@@ -312,7 +312,10 @@ std::string UserInterface::getNewInformationName(const std::string &prompt, std:
     std::string address;
 
     std::cout << "ID：";
-    std::getline(std::cin, idStr);
+    if (!std::getline(std::cin, idStr))
+    {
+        return "";
+    }
     if (idStr == "0")
     {
         return ""; // 用户取消
@@ -325,7 +328,10 @@ std::string UserInterface::getNewInformationName(const std::string &prompt, std:
     while (!std::cin.eof())
     {
         std::cout << "性别（男/女）：";
-        std::getline(std::cin, gender);
+        if (!std::getline(std::cin, gender))
+        {
+            return "";
+        }
 
         if (gender == "0")
         {
@@ -342,7 +348,10 @@ std::string UserInterface::getNewInformationName(const std::string &prompt, std:
     while (!std::cin.eof())
     {
         std::cout << "年龄：";
-        std::getline(std::cin, age);
+        if (!std::getline(std::cin, age))
+        {
+            return "";
+        }
         if (age == "0")
         {
             return ""; // 用户取消
@@ -365,22 +374,34 @@ std::string UserInterface::getNewInformationName(const std::string &prompt, std:
     }
 
     std::cout << "电话：";
-    std::getline(std::cin, telephone);
+    if (!std::getline(std::cin, telephone))
+    {
+        return "";
+    }
     if (telephone.empty())
         telephone = "未填写";
 
     std::cout << "城市：";
-    std::getline(std::cin, city);
+    if (!std::getline(std::cin, city))
+    {
+        return "";
+    }
     if (city.empty())
         city = "未填写";
 
     std::cout << "学校：";
-    std::getline(std::cin, school);
+    if (!std::getline(std::cin, school))
+    {
+        return "";
+    }
     if (school.empty())
         school = "未填写";
 
     std::cout << "地址：";
-    std::getline(std::cin, address);
+    if (!std::getline(std::cin, address))
+    {
+        return "";
+    }
     if (address.empty())
         address = "未填写";
 
@@ -405,7 +426,10 @@ std::string UserInterface::getNewInformationId(const std::string &prompt, IdType
     std::string address;
 
     std::cout << "姓名（输入0取消）：";
-    std::getline(std::cin, name);
+    if (!std::getline(std::cin, name))
+    {
+        return "";
+    }
     if (name == "0")
     {
         return ""; // 用户取消
@@ -416,7 +440,10 @@ std::string UserInterface::getNewInformationId(const std::string &prompt, IdType
     while (!std::cin.eof())
     {
         std::cout << "性别（男/女，输入0取消）：";
-        std::getline(std::cin, gender);
+        if (!std::getline(std::cin, gender))
+        {
+            return "";
+        }
 
         if (gender == "0")
         {
@@ -433,7 +460,10 @@ std::string UserInterface::getNewInformationId(const std::string &prompt, IdType
     while (!std::cin.eof())
     {
         std::cout << "年龄（输入0取消）：";
-        std::getline(std::cin, age);
+        if (!std::getline(std::cin, age))
+        {
+            return "";
+        }
         if (age == "0")
         {
             return "";
@@ -456,22 +486,34 @@ std::string UserInterface::getNewInformationId(const std::string &prompt, IdType
     }
 
     std::cout << "电话：";
-    std::getline(std::cin, telephone);
+    if (!std::getline(std::cin, telephone))
+    {
+        return "";
+    }
     if (telephone.empty())
         telephone = "未填写";
 
     std::cout << "城市：";
-    std::getline(std::cin, city);
+    if (!std::getline(std::cin, city))
+    {
+        return "";
+    }
     if (city.empty())
         city = "未填写";
 
     std::cout << "学校：";
-    std::getline(std::cin, school);
+    if (!std::getline(std::cin, school))
+    {
+        return "";
+    }
     if (school.empty())
         school = "未填写";
 
     std::cout << "地址：";
-    std::getline(std::cin, address);
+    if (!std::getline(std::cin, address))
+    {
+        return "";
+    }
     if (address.empty())
         address = "未填写";
 

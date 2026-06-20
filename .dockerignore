@@ -1,0 +1,30 @@
+# Local assistant settings
+.claude/
+status.md
+
+# Git metadata
+.git/
+
+# Runtime data
+data/
+contacts.db
+contacts.db-*
+
+# IDE settings
+.idea/
+.vscode/
+
+# Build outputs
+build/
+cmake-build-*/
+out/
+CMakeCache.txt
+CMakeFiles/
+
+# Compiled artifacts
+*.o
+*.a
+*.so
+*.dll
+*.dylib
+*.exe

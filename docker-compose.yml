@@ -1,0 +1,14 @@
+services:
+  contact-manager:
+    build: .
+    image: contact-manager:latest
+    stdin_open: true
+    tty: true
+    volumes:
+      - contact-data:/data
+    environment:
+      - CONTACT_DB_PATH=/data/contacts.db
+      - CONTACT_DATA_DIR=/app/contactList
+
+volumes:
+  contact-data:
